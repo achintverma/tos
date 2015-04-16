@@ -14,15 +14,16 @@ PORT create_process (void (*ptr_to_new_proc) (PROCESS, PARAM),
     MEM_ADDR     esp;
     PROCESS      new_proc;
     PORT         new_port;
+    volatile int flag;
     
+    DISABLE_INTR (flag);
     if (prio >= MAX_READY_QUEUES)
 	panic ("create(): Bad priority");
     if (next_free_pcb == NULL)
 	panic ("create(): PCB full");
-	
     new_proc = next_free_pcb;
     next_free_pcb = new_proc->next;
-    
+    ENABLE_INTR (flag);
     new_proc->used              = TRUE;
     new_proc->magic             = MAGIC_PCB;
     new_proc->state             = STATE_READY;
@@ -30,8 +31,10 @@ PORT create_process (void (*ptr_to_new_proc) (PROCESS, PARAM),
     new_proc->first_port        = NULL;
     new_proc->name              = name;
 
+    new_port = create_new_port (new_proc);
+    
     /* Compute linear address of new process' system stack */
-    esp = 640 * 1024 - (new_proc - pcb) * 30 * 1024;
+    esp = 640 * 1024 - (new_proc - pcb) * 16 * 1024;
 
 #define PUSH(x)    esp -= 4; \
                    poke_l (esp, (LONG) x);
@@ -40,6 +43,12 @@ PORT create_process (void (*ptr_to_new_proc) (PROCESS, PARAM),
     PUSH (param);		/* First data */
     PUSH (new_proc);		/* Self */
     PUSH (0);			/* Dummy return address */
+    if (interrupts_initialized) {
+	PUSH (512);			/* Flags with enabled Interrupts */
+    } else {
+	PUSH (0);			/* Flags with disabled Interrupts */
+    }
+    PUSH (CODE_SELECTOR);	/* Kernel code selector */
     PUSH (ptr_to_new_proc);	/* Entry point of new process */
     PUSH (0);			/* EAX */
     PUSH (0);			/* ECX */
@@ -56,7 +65,7 @@ PORT create_process (void (*ptr_to_new_proc) (PROCESS, PARAM),
 
     add_ready_queue (new_proc);
 
-    return NULL;
+    return new_port;
 }
 
 
@@ -67,6 +76,12 @@ PROCESS fork()
 }
 
 
+
+void print_process_heading(WINDOW* wnd)
+{
+    wprintf(wnd, "State           Active Prio Name\n");
+    wprintf(wnd, "------------------------------------------------\n");
+}
 
 void print_process_details(WINDOW* wnd, PROCESS p)
 {
@@ -97,11 +112,7 @@ void print_process_details(WINDOW* wnd, PROCESS p)
 
 void print_process(WINDOW* wnd, PROCESS p)
 {
-    // print heading
-    
-    wprintf(wnd, "State           Active Priority Name\n");
-    wprintf(wnd, "================================================\n");
-    
+    print_process_heading(wnd);
     print_process_details(wnd, p);
 }
 
@@ -110,12 +121,7 @@ void print_all_processes(WINDOW* wnd)
     int i;
     PCB* p = pcb;
     
-    // print heading
-    
-    wprintf(wnd, "State           Active Priority Name\n");
-    wprintf(wnd, "================================================\n");
-    
-    
+    print_process_heading(wnd);
     for (i = 0; i < MAX_PROCS; i++, p++) {
 	if (!p->used)
 	    continue;

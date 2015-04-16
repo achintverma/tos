@@ -29,7 +29,9 @@ void scroll_window(WINDOW* wnd)
 {
     int          x, y;
     int          wx, wy;
+    volatile int flag;
 
+    DISABLE_INTR (flag);
     for (y = 0; y < wnd->height - 1; y++) {
 	wy = wnd->y + y;
 	for (x = 0; x < wnd->width; x++) {
@@ -45,6 +47,7 @@ void scroll_window(WINDOW* wnd)
     }
     wnd->cursor_x = 0;
     wnd->cursor_y = wnd->height - 1;
+    ENABLE_INTR (flag);
 }
 
 
@@ -76,6 +79,9 @@ void clear_window(WINDOW* wnd)
     int x, y;
     int wx, wy;
 
+    volatile int flag;
+
+    DISABLE_INTR (flag);
     wnd->cursor_x = 0;
     wnd->cursor_y = 0;
     for (y = 0; y < wnd->height; y++) {
@@ -86,11 +92,15 @@ void clear_window(WINDOW* wnd)
 	}
     }
     show_cursor(wnd);
+    ENABLE_INTR (flag);
 }
 
 
 void output_char(WINDOW* wnd, unsigned char c)
 {
+    volatile int flag;
+
+    DISABLE_INTR (flag);
     remove_cursor(wnd);
     switch (c) {
     case '\n':
@@ -122,6 +132,7 @@ void output_char(WINDOW* wnd, unsigned char c)
     if (wnd->cursor_y == wnd->height)
 	scroll_window(wnd);
     show_cursor(wnd);
+    ENABLE_INTR (flag);
 }
 
 

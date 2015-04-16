@@ -30,35 +30,26 @@ unsigned ready_procs;
 void add_ready_queue (PROCESS proc)
 {
     int          prio;
+    volatile int flag;
+    
+    DISABLE_INTR (flag);
     assert (proc->magic == MAGIC_PCB);
     prio = proc->priority;
     if (ready_queue [prio] == NULL) {
 	/* The only process on this priority level */
-	ready_queue [prio] 	= proc;
-	proc->next         	= proc;
-	proc->prev 	   		= proc;
-	
-	ready_procs = ready_procs | (1 << prio); // ? 
-	
+	ready_queue [prio] = proc;
+	proc->next         = proc;
+	proc->prev 	   = proc;
+	ready_procs |= 1 << prio;
     } else {
 	/* Some other processes on this priority level */
-	
-	
-	// connect NEXT of this new process to first process in the doubly linked list 
 	proc->next  = ready_queue [prio];
-	
-	// connect PREV of this new process to last process in the doubly linked list
 	proc->prev  = ready_queue [prio]->prev;
-	
-	// connect the NEXT of the last process to new process
 	ready_queue [prio]->prev->next = proc;
-	
-	// connect PREV of first process to point to new process to make it last in the queue
 	ready_queue [prio]->prev       = proc;
     }
-    
-    // make the state of this new process READY so it can be executed now
     proc->state = STATE_READY;
+    ENABLE_INTR (flag);
 }
 
 
@@ -72,25 +63,22 @@ void add_ready_queue (PROCESS proc)
 
 void remove_ready_queue (PROCESS proc)
 {
-    int prio;
+    int          prio;
+    volatile int flag;
+    
+    DISABLE_INTR (flag);
     assert (proc->magic == MAGIC_PCB);
-    
     prio = proc->priority;
-    
     if (proc->next == proc) {
 	/* No further processes on this priority level */
 	ready_queue [prio] = NULL;
-	
-	// set the bit flag associated to the ready_queue[prio] for ready_proc to zero
 	ready_procs &= ~(1 << prio);
-    
     } else {
-		
 	ready_queue [prio] = proc->next;
 	proc->next->prev   = proc->prev;
 	proc->prev->next   = proc->next;
-	
     }
+    ENABLE_INTR (flag);
 }
 
 
@@ -105,23 +93,23 @@ void remove_ready_queue (PROCESS proc)
 
 PROCESS dispatcher()
 {
+    PROCESS      new_proc;
+    unsigned     i;
+    volatile int flag;
     
-   int i;
+    DISABLE_INTR (flag);
     
-   for(i=7; i >= 0; i--)
-   {
-		if(ready_queue[i] != NULL)
-		{
-			if(i > active_proc->priority)
-				return ready_queue[i];
-			else
-				return active_proc->next;
-		}
-		
-   }
-   
-   return (PROCESS) NULL;
-   
+    /* Find queue with highest priority that is not empty */
+    i = table[ready_procs];
+    assert (i != -1);
+    if (i == active_proc->priority)
+	/* Round robin within the same priority level */
+	new_proc = active_proc->next;
+    else
+	/* Dispatch a process at a different priority level */
+	new_proc = ready_queue [i];
+    ENABLE_INTR (flag);
+    return new_proc;
 }
 
 
@@ -136,6 +124,48 @@ PROCESS dispatcher()
  */
 void resign()
 {
+    /*
+     *	PUSHFL
+     *	CLI
+     *	POPL	%EAX		; EAX = Flags
+     *	XCHGL	(%ESP),%EAX     ; Swap return adr with flags
+     *	PUSH	%CS 		; Push CS
+     *	PUSHL	%EAX		; Push return address
+     *  PUSHL	%EAX		; Save process' context
+     *  PUSHL   %ECX
+     *  PUSHL   %EDX
+     *  PUSHL   %EBX
+     *  PUSHL   %EBP
+     *  PUSHL   %ESI
+     *  PUSHL   %EDI
+     */
+    asm ("pushfl;cli;popl %eax;xchgl (%esp),%eax");
+    asm ("push %cs;pushl %eax");
+    asm ("pushl %eax;pushl %ecx;pushl %edx");
+    asm ("pushl %ebx;pushl %ebp;pushl %esi;pushl %edi");
+
+    /* Save the context pointer SS:ESP to the PCB */
+    asm ("movl %%esp,%0" : "=r" (active_proc->esp) : );
+
+    /* Dispatch new process */
+    active_proc = dispatcher();
+
+    /* Restore context pointer SS:ESP */
+    asm ("movl %0,%%esp" : : "r" (active_proc->esp));
+    
+    /*
+     *  POPL  %EDI      ; Restore previously saved context
+     *  POPL  %ESI
+     *  POPL  %EBP
+     *  POPL  %EBX
+     *  POPL  %EDX
+     *  POPL  %ECX
+     *  POPL  %EAX
+     *	IRET		; Return to new process
+     */
+    asm ("popl %edi;popl %esi;popl %ebp;popl %ebx");
+    asm ("popl %edx;popl %ecx;popl %eax");
+    asm ("iret");
 }
 
 

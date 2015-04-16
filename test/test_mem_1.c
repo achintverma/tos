@@ -14,7 +14,6 @@ void test_mem_1()
     poke_b(0xb8000, 'A');
     poke_b(0xb8001, 0x0f);
     poke_b(0xb8002, peek_b (0xb8000) + 1);
-    
     poke_b(0xb8003, 0x0f);
     poke_w(0xb8004, peek_w (0xb8000));
     poke_l(0xb8006, peek_l (0xb8000));
