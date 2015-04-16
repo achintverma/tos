@@ -6,7 +6,6 @@
 
 PROCESS active_proc;
 
-
 /*
  * Ready queues for all eight priorities.
  */
