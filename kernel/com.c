@@ -12,7 +12,6 @@
 
 PORT com_port;
 
-
 void init_uart()
 {
     /* LineControl disabled to set baud rate */
@@ -50,6 +49,7 @@ void com_reader_process (PROCESS self, PARAM param)
 	message (reply_port, &msg);
     }
 }
+		
 
 
 void send_cmd_to_com (char* cmd)
@@ -77,12 +77,12 @@ void com_process (PROCESS self, PARAM param)
 				      (PARAM) self->first_port, "COM reader");
     
     while (42) {
-	msg = (COM_Message*) receive (&sender_proc);
-	message (com_reader_port, msg);
-	send_cmd_to_com (msg->output_buffer);
-	receive (&recv_proc);
-	/*assert (recv_proc == com_reader_proc);*/
-	reply (sender_proc);
+		msg = (COM_Message*) receive (&sender_proc);
+		message (com_reader_port, msg);
+		send_cmd_to_com (msg->output_buffer);
+		receive (&recv_proc);
+		/*assert (recv_proc == com_reader_proc);*/
+		reply (sender_proc);
     }
 }
 

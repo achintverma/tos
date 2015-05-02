@@ -1,7 +1,6 @@
 
 #include <kernel.h>
 
-
 PORT timer_port;
 
 void timer_notifier (PROCESS self, PARAM param)

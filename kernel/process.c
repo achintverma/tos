@@ -62,9 +62,7 @@ PORT create_process (void (*ptr_to_new_proc) (PROCESS, PARAM),
 
     /* Save context ptr (actually current stack pointer) */
     new_proc->esp = esp;
-
     add_ready_queue (new_proc);
-
     return new_port;
 }
 
@@ -74,7 +72,6 @@ PROCESS fork()
     // Dummy return to make gcc happy
     return (PROCESS) NULL;
 }
-
 
 
 void print_process_heading(WINDOW* wnd)

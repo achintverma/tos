@@ -413,6 +413,7 @@ void init_interrupts()
     init_idt_entry (16, exception16);
     init_idt_entry (TIMER_IRQ, isr_timer);
     init_idt_entry (COM1_IRQ, isr_com1);
+    init_idt_entry (KEYB_IRQ, isr_keyb);
     
     re_program_interrupt_controller();
     

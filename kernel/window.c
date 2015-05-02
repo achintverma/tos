@@ -2,25 +2,24 @@
 #include <kernel.h>
 
 
-#define SCREEN_BASE_ADDR 0xb8000
-#define SCREEN_WIDTH     80
-#define SCREEN_HEIGHT    25
+#define DISP_START_ADDR 0xb8000
+#define DISP_WIDTH     80
+#define DISP_HEIGHT    25
 
 
 WORD default_color = 0x0f;
 
 
-
 void poke_screen(int x, int y, WORD ch)
 {
-    poke_w(SCREEN_BASE_ADDR + y * SCREEN_WIDTH * 2 + x * 2, ch);
+    poke_w(DISP_START_ADDR + y * DISP_WIDTH * 2 + x * 2, ch);
 }
 
 
 
 WORD peek_screen(int x, int y)
 {
-    return peek_w(SCREEN_BASE_ADDR + y * SCREEN_WIDTH * 2 + x * 2);
+    return peek_w(DISP_START_ADDR + y * DISP_WIDTH * 2 + x * 2);
 }
 
 
