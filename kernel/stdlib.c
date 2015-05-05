@@ -33,3 +33,21 @@ int k_memcmp(const void* b1, const void* b2, int len)
 	return (0);
 }
 
+int k_strcmp(const char* str1, const char* str2)
+{		
+	while(*str1 == *str2)
+	{	
+		if(*str1 == '\0' || *str2 == '\0'){
+			break;
+		}
+		str1++;
+		str2++;
+	}	
+	if(*str1 == '\0' && *str2 == '\0'){
+		return 1;
+	}
+	else{
+		return 0;
+	}
+}
+

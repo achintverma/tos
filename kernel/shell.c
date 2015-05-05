@@ -7,23 +7,44 @@
 // #define const char* COMMANDS[] = {"clr","go","stop"};
 static WINDOW shell_window = {0, 11, 80, 15, 0, 0, 0xA6, TRUE, "Shell"};
 static WINDOW shell_border = {0, 10, 80, 15, 0, 0, 0xA6, TRUE, "Shell Border"};
-void tos_clr();
-int  tos_string_compare(char*, char*);
-void print_string(char*);
-void start_kb();
-void tos_ps();
-void tos_prompt();
-void tos_ports();
-void clear_whites(char*, char*, char*, int);
+
+// Array of commands in tos shell.
+command commands_array[MAX_COMMANDS + 1];
 
 char* cmd_string = "a"; 
 char* arguments = "";
 
-// init_shell() method will initialize the Shell process.
-void init_shell()
+
+/*
+ * dispatch_command() method dispatches the function call to the appropriate command
+ * entered by the user on Shell prompt.
+ * This function is used for the definition of the dipatch_command()
+ * */
+void dispatch_command(void (*func) ,char *name, char *description, command *cmd) 
 {
-	create_process(start_kb, 5, 0, "TOS Terminal"); 
+	cmd->name = name;
+	cmd->func = func;
+	cmd->description = description;
 }
+
+/*
+ * lookup_command_array() function searches for the command entered by the user in the
+ * command array and returns the match if found.
+ * 
+ * */
+command* lookup_command_array(const command *commands, const char *user_input_command){
+	
+	// loop until the match is found.
+	for(; commands->func != NULL; commands++)
+	{
+		if (k_strcmp(commands->name, user_input_command))
+		{
+			break;
+		}
+	}
+	return (command *)commands;
+}
+
 
 void start_kb(PROCESS self, PARAM param)
 {
@@ -43,12 +64,9 @@ void start_kb(PROCESS self, PARAM param)
 	 
 	 char* input_string;
 	 int char_num = 0;
-	 char clr[] 		= "clr";
-	 char ps[] 			= "ps";
-	 char ports[] 		= "ports";
-	 char echo[] 		= "echo";
-	 char check[] 		= "check";
-	 char train_stop[] 	= "stop";
+	 
+	 command* command_var;
+	 void (*caller_function)();
 	 
 	 while (1) { 
 		msg.key_buffer = &ch;
@@ -63,20 +81,20 @@ void start_kb(PROCESS self, PARAM param)
 			// reset all counters everytime ENTER is pressed 
 			char_num 		= 0;
 			
-			// check if the comparison is made properly or not
-			if(tos_string_compare(cmd_string, ports))
-				tos_ports();
-			else if(tos_string_compare(cmd_string, ps))
-				tos_ps();
-			else if(tos_string_compare(cmd_string, clr))
-				tos_clr();	
-			else if(tos_string_compare(cmd_string, echo))
-				tos_echo();	
-			else
-			{
-				wprintf(&shell_window, "\n Error: Bad Command. Please check syntax.");
-			}
-			
+			command_var = lookup_command_array(commands_array, cmd_string);
+				
+				
+				if (command_var->func == NULL)
+				{
+					wprintf(&shell_window, "\n Error: Bad Command. Please check syntax.");
+				}
+				else
+				{	
+					// run the command as per the user input.
+					caller_function = command_var->func;
+					caller_function();
+				}
+
 			
 			*arguments = '\0';
 			tos_prompt();
@@ -169,23 +187,7 @@ void clear_whites(char *input_ch, char *cmd, char *arg, int char_num){
 }
 
 
-int tos_string_compare(char* str1, char* str2)
-{		
-	while(*str1 == *str2)
-	{	
-		if(*str1 == '\0' || *str2 == '\0'){
-			break;
-		}
-		str1++;
-		str2++;
-	}	
-	if(*str1 == '\0' && *str2 == '\0'){
-		return 1;
-	}
-	else{
-		return 0;
-	}
-}
+
 
 
 void print_string(char* str)
@@ -286,7 +288,37 @@ void tos_echo(){
 	
 }
 
-
+/* 
+ * init_shell() method will initialize the Shell process functions which associated with each commands
+ * entered on the prompt.
+ * 
+ * */
+void init_shell()
+{
+	// counter to store the functions in the commands array.
+	int counter = 0;
+	
+	// initialize all the functions for commands
+	dispatch_command(tos_ps, "ps", "Displays a list of all running processes", &commands_array[counter++]);
+	dispatch_command(tos_clr, "clr", "Use to clear the shell window", &commands_array[counter++]);
+	dispatch_command(tos_ports, "ports", "Displays a list of all used ports", &commands_array[counter++]);
+	dispatch_command(tos_echo, "echo", "Echoes the function arguments", &commands_array[counter++]);
+	//dispatch_command(init_train_shell, "train", "Initialize and start Train process", &commands_array[counter++]);
+	
+	
+	// assign the NULL to each of the remaining commands in the array.
+	while(counter < MAX_COMMANDS){
+		dispatch_command(NULL, "NCF", "No command found", &commands_array[counter++]);
+	}
+	commands_array[MAX_COMMANDS].name 			= "NULL";
+	commands_array[MAX_COMMANDS].func 			=  NULL;
+	commands_array[MAX_COMMANDS].description 	= "NULL";
+	
+	
+	// once all functions are initialized, create the shell process.
+	create_process(start_kb, 5, 0, "Terminal Process");
+	resign();
+}
 
 
 	
