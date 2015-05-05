@@ -5,12 +5,11 @@
 #define KB_ENTER '\015'
 #define KB_BACK '\010'
 // #define const char* COMMANDS[] = {"clr","go","stop"};
-
-
+static WINDOW shell_window = {0, 11, 80, 15, 0, 0, 0xA6, TRUE, "Shell"};
+static WINDOW shell_border = {0, 10, 80, 15, 0, 0, 0xA6, TRUE, "Shell Border"};
 void tos_clr();
 int  tos_string_compare(char*, char*);
 void print_string(char*);
-void talk_to_com(char*);
 void start_kb();
 void tos_ps();
 void tos_prompt();
@@ -26,14 +25,15 @@ void init_shell()
 	create_process(start_kb, 5, 0, "TOS Terminal"); 
 }
 
-
 void start_kb(PROCESS self, PARAM param)
 {
 	 	
 	 // clear the window every time you open the shell.
 	 clear_window(kernel_window);
-	  
-	 kprintf("=========== WELCOME TO TRAIN OS ============\n"); 	
+	 
+	 // render the border 
+	 wprintf(&shell_border, "________________________________________________________________________________");
+	 
 	 tos_prompt();
 	 
 	 show_cursor(kernel_window); 	
@@ -42,39 +42,25 @@ void start_kb(PROCESS self, PARAM param)
 	 Keyb_Message msg;
 	 
 	 char* input_string;
-	 
-	 
 	 int char_num = 0;
-	 // char valid_cmd_chars[] = "abcdefghijklmnopqrstuvwxyz0123456789";
-	 char clr[] 	= "clr";
-	 char ps[] 		= "ps";
-	 char ports[] 	= "ports";
-	 char train[] = "run";
-	 char check[] = "check";
-	 char train_stop[] = "stop";
+	 char clr[] 		= "clr";
+	 char ps[] 			= "ps";
+	 char ports[] 		= "ports";
+	 char echo[] 		= "echo";
+	 char check[] 		= "check";
+	 char train_stop[] 	= "stop";
 	 
 	 while (1) { 
 		msg.key_buffer = &ch;
 		send(keyb_port, &msg);
-		kprintf("%c", ch);
+		wprintf(&shell_window, "%c", ch);
 		
 		// CHECK IF ENTER KEY WAS PRESSED
 		if(ch == KB_ENTER){
 					
 			clear_whites(input_string, cmd_string, arguments, char_num);
-			
-			kprintf("\nCommand: %s ", cmd_string);
-			//print_string(cmd_string);
-			
-			kprintf("\nArguments: %s ", arguments);
-			//print_string(arguments);
-			
-			
-			// 2. trim whitespaces 
-			
-			
-			
-			// 3. reset all counters everytime ENTER is pressed 
+		
+			// reset all counters everytime ENTER is pressed 
 			char_num 		= 0;
 			
 			// check if the comparison is made properly or not
@@ -84,20 +70,18 @@ void start_kb(PROCESS self, PARAM param)
 				tos_ps();
 			else if(tos_string_compare(cmd_string, clr))
 				tos_clr();	
-			
-	//		else if(tos_string_compare(cmd_string, train_stop))
-		//		talk_to_com4("L20S0\015");
+			else if(tos_string_compare(cmd_string, echo))
+				tos_echo();	
 			else
 			{
-				kprintf("\n Error: Bad Command. Please check Syntax. \n ");
+				wprintf(&shell_window, "\n Error: Bad Command. Please check syntax.");
 			}
 			
 			
 			*arguments = '\0';
 			tos_prompt();
 			
-			//pass the Command String to COM1 port. 
-			//talk_to_com(cmd_string);
+			
 		}
 		else if(ch == KB_BACK) // there was a backspace hit, decrement char counter
 		{
@@ -110,8 +94,19 @@ void start_kb(PROCESS self, PARAM param)
 			 char_num++;
 		}
 	}
-	//ENABLE_INTR(flag);
+	
 } 
+
+/*
+ * function to clear extra white spaces from start, end and between words. It also identifies command and argument strings.
+ * 
+ * @param string input_string
+ * @param string command_string
+ * @param string arguments
+ * @param integer number_of_characters
+ * 
+ */
+
 
 void clear_whites(char *input_ch, char *cmd, char *arg, int char_num){
 	
@@ -120,71 +115,56 @@ void clear_whites(char *input_ch, char *cmd, char *arg, int char_num){
 	int in_command = FALSE;
 	int is_first_block = TRUE;
 	
-	
-	for(i = 0; i < char_num; i++)
-	{	
-				char ch = *(input_ch+i);
+  // process all characters typed on shell 	
+  for(i = 0; i < char_num; i++)
+  {	
+	char ch = *(input_ch+i);
+			
+	if(ch == KB_SPACE || ch == KB_TAB)
+	{
+		if(in_command == TRUE)
+		{
+			 if(is_first_block == FALSE)
+			 {
+				*(arg+j) = ' ';
+				j++;
+			 }
+			else
+			{
+				// command string found, add a terminator and prepare to capture arguments 
+				*(cmd+j) = '\0';
+				j=0; 						// reset J so it can be used again for arguments
+				is_first_block = FALSE;
 				
+			}
+					
+			in_command = FALSE;
+		}
+		else
+			continue; 						// if there are more than one spaces, skip
 				
-				
-				if(ch == KB_SPACE || ch == KB_TAB)
-				{
-					
-					if(in_command == TRUE)
-					{
-						
-						
-						if(is_first_block == FALSE)
-						{
-							
-							*(arg+j) = ' ';
-							j++;
-						}
-						else
-						{
-							
-							is_first_block = FALSE;
-							*(cmd+j) = '\0';
-							j=0;
-							
-							print_string(cmd);
-						
-						}
-						
-						in_command = FALSE;
-					}
-					else
-						continue;
-					
-				}
-				else
-				{
-					
-					if(is_first_block == TRUE)
-					{
-						*(cmd+j) = ch;
-						
-					}
-					else
-					{
-						*(arg+j) = ch;
-						
-					}	
-					// kprintf("%c", tmp_char);
-					j++;
-					in_command = TRUE;
-				}
-	}	
+	}
+	else
+	{
+		if(is_first_block == TRUE)
+			*(cmd+j) = ch;
+		else
+			*(arg+j) = ch;
+		
+		j++;
+		in_command = TRUE;
+	}
+  }	
 	
-	// if last character is a space
 	
-	if(is_first_block == TRUE)
+	
+	if(is_first_block == TRUE)			// if only one word is entered, command string need to be terminated
 	*(cmd+j) = '\0';
 	
-	if(in_command == FALSE)
+	if(in_command == FALSE)				// if last character is a space move pointer one space backwards
 	j--;
 	
-	*(arg+j) = '\0';
+	*(arg+j) = '\0';					// terminate the argument string
 		
 }
 
@@ -211,47 +191,10 @@ int tos_string_compare(char* str1, char* str2)
 void print_string(char* str)
 {
 	while(*str != '\0')
-	kprintf("%c",*str++);
+	wprintf(&shell_window, "%c",*str++);
 }
 
 
-void talk_to_com(char* cmd_string){	
-	char buffer [12]; /* 12 == strlen ("Hello World!") */
-	volatile int flag;
-	//DISABLE_INTR(flag);
-	COM_Message msg;
-	//int i;
-	msg.output_buffer = cmd_string;
-	msg.input_buffer = buffer;
-	msg.len_input_buffer = 0;
-	
-	send (com_port, &msg);
-	
-	tos_prompt();
-	//for (i = 0; i < 12; i++)
-	//kprintf ("%c", buffer[i]);
-	
-	
-} 
-
-
-void talk_to_com1(char* cmd_string){	
-	char buffer [12]; /* 12 == strlen ("Hello World!") */
-	volatile int flag;
-	DISABLE_INTR(flag);
-	COM_Message msg;
-	//int i;
-	msg.output_buffer = cmd_string;
-	msg.input_buffer = buffer;
-	msg.len_input_buffer = 3;
-	//kprintf(input_buffer[1]);
-	
-	send (com_port, &msg);
-	ENABLE_INTR(flag);
-	tos_prompt();
-	//for (i = 0; i < 12; i++)
-	//kprintf ("%c", buffer[i]);
-} 
 
 /* TOS SHELL COMMANDS START HERE */
 
@@ -260,17 +203,15 @@ void talk_to_com1(char* cmd_string){
 
 void tos_prompt(){
 
-	kprintf("\nTOS > ");
+	wprintf(&shell_window, "\nTOS > ");
 
 }
 
 // function to clear screen
 void tos_clr(){
 
-	
-	clear_window(kernel_window);
-	print_string(arguments);
-	
+	clear_window(&shell_window);
+	//print_string(arguments);
 }
 
 // function to print list of processes 
@@ -280,7 +221,7 @@ void tos_ps(){
 	int i;
     PCB* p = pcb;
     
-    kprintf("PCB Priority State           Active Name\n");
+    wprintf(&shell_window, "PCB Priority State           Active Name\n");
     for (i = 1; i < MAX_PROCS; i++, p++) {
 		
 		// if pcb is not used, skip
@@ -297,18 +238,18 @@ void tos_ps(){
 		};
 		
 		
-		kprintf("%d  ", i);					// pcb entry
-		kprintf("  %2d     ", p->priority); // priority 
-		kprintf(state[p->state]);      		// state
+		wprintf(&shell_window, "%d  ", i);					// pcb entry
+		wprintf(&shell_window, "  %2d     ", p->priority); // priority 
+		wprintf(&shell_window, state[p->state]);      		// state
 		
 		if (p == active_proc)          		// active process?     
-			kprintf(" *      ");
+			wprintf(&shell_window, " *      ");
 		else
-			kprintf("        ");
+			wprintf(&shell_window, "        ");
 		
 		//kprintf(" %s\n", p->name);
 		
-		kprintf("%s\n", p->name);	   		// process name 
+		wprintf(&shell_window, "%s\n", p->name);	   		// process name 
 		
 		
     }
@@ -323,7 +264,7 @@ void tos_ports(){
 	PORT_DEF *pr = port;
 	PROCESS ps; 
 	
-	kprintf("Port Process\n");
+	wprintf(&shell_window, "Port Process\n");
 	
 	for(i=0; i<MAX_PORTS -1; i++, pr++){
 		
@@ -331,12 +272,19 @@ void tos_ports(){
 		continue;
 	
 		ps = pr->owner;
-		kprintf("\n %d    %s", i, ps->name);
+		wprintf(&shell_window, "\n %d    %s", i, ps->name);
 			
 	}
 	
 }
 
+
+// function to echo a message 
+void tos_echo(){
+	
+	wprintf(&shell_window, "\n %s", arguments);
+	
+}
 
 
 
