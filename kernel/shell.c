@@ -6,8 +6,6 @@
 #define KB_BACK '\010'
 // #define const char* COMMANDS[] = {"clr","go","stop"};
 
-char *cmd_string; 
-char *arguments;
 
 void tos_clr();
 int  tos_string_compare(char*, char*);
@@ -17,8 +15,10 @@ void start_kb();
 void tos_ps();
 void tos_prompt();
 void tos_ports();
-void clear_whites(char*, int);
+void clear_whites(char*, char*, char*, int);
 
+char* cmd_string = "a"; 
+char* arguments = "";
 
 // init_shell() method will initialize the Shell process.
 void init_shell()
@@ -42,7 +42,8 @@ void start_kb(PROCESS self, PARAM param)
 	 Keyb_Message msg;
 	 
 	 char* input_string;
-	 char* cmd_string;
+	 
+	 
 	 int char_num = 0;
 	 // char valid_cmd_chars[] = "abcdefghijklmnopqrstuvwxyz0123456789";
 	 char clr[] 	= "clr";
@@ -60,12 +61,12 @@ void start_kb(PROCESS self, PARAM param)
 		// CHECK IF ENTER KEY WAS PRESSED
 		if(ch == KB_ENTER){
 					
-			clear_whites(input_string, char_num);
+			clear_whites(input_string, cmd_string, arguments, char_num);
 			
-			kprintf("\nCommand: %d %s", cmd_string, cmd_string);
+			kprintf("\nCommand: %s ", cmd_string);
 			//print_string(cmd_string);
 			
-			kprintf("\nArguments: %d %s", arguments, arguments);
+			kprintf("\nArguments: %s ", arguments);
 			//print_string(arguments);
 			
 			
@@ -83,12 +84,7 @@ void start_kb(PROCESS self, PARAM param)
 				tos_ps();
 			else if(tos_string_compare(cmd_string, clr))
 				tos_clr();	
-			else if(tos_string_compare(cmd_string, train))
-				talk_to_com("L20S4\015");
-			else if(tos_string_compare(cmd_string, check))
-				talk_to_com1("C1\015");
-			else if(tos_string_compare(cmd_string, check))
-				talk_to_com2("M1R\015");
+			
 	//		else if(tos_string_compare(cmd_string, train_stop))
 		//		talk_to_com4("L20S0\015");
 			else
@@ -96,6 +92,8 @@ void start_kb(PROCESS self, PARAM param)
 				kprintf("\n Error: Bad Command. Please check Syntax. \n ");
 			}
 			
+			
+			*arguments = '\0';
 			tos_prompt();
 			
 			//pass the Command String to COM1 port. 
@@ -115,7 +113,7 @@ void start_kb(PROCESS self, PARAM param)
 	//ENABLE_INTR(flag);
 } 
 
-void clear_whites(char *input_ch, int char_num){
+void clear_whites(char *input_ch, char *cmd, char *arg, int char_num){
 	
 	int i = 0;
 	int j = 0;
@@ -127,27 +125,29 @@ void clear_whites(char *input_ch, int char_num){
 	{	
 				char ch = *(input_ch+i);
 				
-				kprintf("\n character: %c", ch);
+				
 				
 				if(ch == KB_SPACE || ch == KB_TAB)
 				{
 					
 					if(in_command == TRUE)
 					{
-						kprintf("\n -- in command");
+						
 						
 						if(is_first_block == FALSE)
 						{
-							kprintf("\n + arg");
-							*(arguments+j) = ' ';
+							
+							*(arg+j) = ' ';
 							j++;
 						}
 						else
 						{
-							kprintf("\n + cmd");
+							
 							is_first_block = FALSE;
-							*(cmd_string+j) = '\0';
+							*(cmd+j) = '\0';
 							j=0;
+							
+							print_string(cmd);
 						
 						}
 						
@@ -159,16 +159,16 @@ void clear_whites(char *input_ch, int char_num){
 				}
 				else
 				{
-					kprintf("\n -- in real chars");
+					
 					if(is_first_block == TRUE)
 					{
-						*(cmd_string+j) = ch;
-						kprintf("\n ++ cmd");
+						*(cmd+j) = ch;
+						
 					}
 					else
 					{
-						*(arguments+j) = ch;
-						kprintf("\n ++ arg");
+						*(arg+j) = ch;
+						
 					}	
 					// kprintf("%c", tmp_char);
 					j++;
@@ -178,15 +178,13 @@ void clear_whites(char *input_ch, int char_num){
 	
 	// if last character is a space
 	
+	if(is_first_block == TRUE)
+	*(cmd+j) = '\0';
+	
 	if(in_command == FALSE)
 	j--;
-	*(arguments+j) = '\0';
 	
-	if(is_first_block == TRUE)
-	*(cmd_string+j) = '\0';
-	
-	
-	
+	*(arg+j) = '\0';
 		
 }
 
@@ -269,8 +267,9 @@ void tos_prompt(){
 // function to clear screen
 void tos_clr(){
 
+	
 	clear_window(kernel_window);
-	kprintf("\nArguments: %s", *arguments);	
+	print_string(arguments);
 	
 }
 
