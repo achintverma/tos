@@ -282,13 +282,17 @@ typedef struct _command_definition
 
 void tos_prompt();
 void print_string(char* str);
-void clear_whites(char*, char*, char*, int);
+void clear_whites(char*, int);
 command* lookup_command_array(const command *commands, const char *user_input_command);
 void dispatch_command(void (*func) , char *name, char *description, command *command);
 
+extern WINDOW shell_window;
+extern WINDOW train_window;
+
+
 /*=====>>> train.c <<<===================================================*/
 
-void init_train(WINDOW* wnd);
+void init_train();
 void set_train_speed(char* speed);
 
 /*=====>>> pacman.c <<<==================================================*/

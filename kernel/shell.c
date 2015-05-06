@@ -5,15 +5,16 @@
 #define KB_ENTER '\015'
 #define KB_BACK '\010'
 // #define const char* COMMANDS[] = {"clr","go","stop"};
-static WINDOW shell_window = {0, 11, 80, 15, 0, 0, 0xA6, TRUE, "Shell"};
-static WINDOW shell_border = {0, 10, 80, 15, 0, 0, 0xA6, TRUE, "Shell Border"};
+WINDOW train_window = {0, 0, 80, 6, 0, 0, ' '};
+WINDOW shell_window = {0, 11, 80, 15, 0, 0, 0xA6, TRUE, "Shell"};
+static WINDOW shell_border = {0, 10, 80, 2, 0, 0, 0xA6, TRUE, "Shell Border"};
 
 // Array of commands in tos shell.
 command commands_array[MAX_COMMANDS + 1];
 
-char* cmd_string = "a"; 
-char* arguments = "";
 
+char arguments[20] = "";
+char cmd_string[10] = ""; 
 
 /*
  * dispatch_command() method dispatches the function call to the appropriate command
@@ -63,6 +64,7 @@ void start_kb(PROCESS self, PARAM param)
 	 Keyb_Message msg;
 	 
 	 char* input_string;
+	 
 	 int char_num = 0;
 	 
 	 command* command_var;
@@ -76,7 +78,7 @@ void start_kb(PROCESS self, PARAM param)
 		// CHECK IF ENTER KEY WAS PRESSED
 		if(ch == KB_ENTER){
 					
-			clear_whites(input_string, cmd_string, arguments, char_num);
+			clear_whites(input_string, char_num);
 		
 			// reset all counters everytime ENTER is pressed 
 			char_num 		= 0;
@@ -96,7 +98,8 @@ void start_kb(PROCESS self, PARAM param)
 				}
 
 			
-			*arguments = '\0';
+			*arguments = "\0";
+			//*cmd_string = "default";
 			tos_prompt();
 			
 			
@@ -112,7 +115,7 @@ void start_kb(PROCESS self, PARAM param)
 			 char_num++;
 		}
 	}
-	
+	//resign();
 } 
 
 /*
@@ -126,7 +129,7 @@ void start_kb(PROCESS self, PARAM param)
  */
 
 
-void clear_whites(char *input_ch, char *cmd, char *arg, int char_num){
+void clear_whites(char *input_ch, int char_num){
 	
 	int i = 0;
 	int j = 0;
@@ -144,13 +147,17 @@ void clear_whites(char *input_ch, char *cmd, char *arg, int char_num){
 		{
 			 if(is_first_block == FALSE)
 			 {
-				*(arg+j) = ' ';
+				//*(arguments+j) = ' ';
+				
+				arguments[j] = ' ';
 				j++;
 			 }
 			else
 			{
 				// command string found, add a terminator and prepare to capture arguments 
-				*(cmd+j) = '\0';
+				// *(cmd_string+j) = '\0';
+				
+				cmd_string[j] = '\0';
 				j=0; 						// reset J so it can be used again for arguments
 				is_first_block = FALSE;
 				
@@ -165,9 +172,11 @@ void clear_whites(char *input_ch, char *cmd, char *arg, int char_num){
 	else
 	{
 		if(is_first_block == TRUE)
-			*(cmd+j) = ch;
+			//*(cmd_string+j) = ch;
+			cmd_string[j] = ch;
 		else
-			*(arg+j) = ch;
+			//*(arguments+j) = ch;
+			arguments[j] = ch;
 		
 		j++;
 		in_command = TRUE;
@@ -177,12 +186,13 @@ void clear_whites(char *input_ch, char *cmd, char *arg, int char_num){
 	
 	
 	if(is_first_block == TRUE)			// if only one word is entered, command string need to be terminated
-	*(cmd+j) = '\0';
+	cmd_string[j] = '\0';
+	//*(cmd_string+j) = '\0';
 	
 	if(in_command == FALSE)				// if last character is a space move pointer one space backwards
 	j--;
 	
-	*(arg+j) = '\0';					// terminate the argument string
+	*(arguments+j) = '\0';					// terminate the argument string
 		
 }
 
@@ -288,6 +298,18 @@ void tos_echo(){
 	
 }
 
+// function to start train 
+void tos_train(){
+	
+	wprintf(&shell_window,"\ntrain starting...");
+	init_train();
+	
+}
+
+
+
+
+
 /* 
  * init_shell() method will initialize the Shell process functions which associated with each commands
  * entered on the prompt.
@@ -303,7 +325,7 @@ void init_shell()
 	dispatch_command(tos_clr, "clr", "Use to clear the shell window", &commands_array[counter++]);
 	dispatch_command(tos_ports, "ports", "Displays a list of all used ports", &commands_array[counter++]);
 	dispatch_command(tos_echo, "echo", "Echoes the function arguments", &commands_array[counter++]);
-	//dispatch_command(init_train_shell, "train", "Initialize and start Train process", &commands_array[counter++]);
+	dispatch_command(tos_train, "railway", "Initialize and start Train process", &commands_array[counter++]);
 	
 	
 	// assign the NULL to each of the remaining commands in the array.
@@ -318,6 +340,7 @@ void init_shell()
 	// once all functions are initialized, create the shell process.
 	create_process(start_kb, 5, 0, "Terminal Process");
 	resign();
+	
 }
 
 
