@@ -325,7 +325,7 @@ void init_shell()
 	dispatch_command(tos_clr, "clr", "Use to clear the shell window", &commands_array[counter++]);
 	dispatch_command(tos_ports, "ports", "Displays a list of all used ports", &commands_array[counter++]);
 	dispatch_command(tos_echo, "echo", "Echoes the function arguments", &commands_array[counter++]);
-	dispatch_command(tos_train, "railway", "Initialize and start Train process", &commands_array[counter++]);
+	dispatch_command(tos_train, "train", "Initialize and start Train process", &commands_array[counter++]);
 	
 	
 	// assign the NULL to each of the remaining commands in the array.
