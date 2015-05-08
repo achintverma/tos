@@ -288,7 +288,8 @@ void dispatch_command(void (*func) , char *name, char *description, command *com
 
 extern WINDOW shell_window;
 extern WINDOW train_window;
-
+extern WINDOW train_status;
+extern WINDOW train_status_head;
 
 /*=====>>> train.c <<<===================================================*/
 

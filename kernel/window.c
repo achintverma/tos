@@ -7,7 +7,7 @@
 #define DISP_HEIGHT    25
 
 
-WORD default_color = 0x0f;
+WORD default_color = 0x0a;
 
 
 void poke_screen(int x, int y, WORD ch)

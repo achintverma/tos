@@ -41,7 +41,7 @@ void send_command(char *action, int len_buffer, char *input_buffer)
     
     sleep(20);
     
-    wprintf(&train_window, "Executing: %s", train_cmd);
+    wprintf(&train_status, "Command: %s", train_cmd);
     
     send(com_port, &msg);
 	
@@ -119,7 +119,7 @@ char get_segment_status(char* segmentID)
 
 void config12()
 {	
-	wprintf(&train_window, "Starting config 1 or 2 without Zamboni...\n");
+	wprintf(&train_window, "\nStarting config 1 or 2 without Zamboni...\n");
 	
 	// set switches required for train path
 	set_switch("4","R");
@@ -151,8 +151,6 @@ void config12()
 			break;
 		}
 	}
-	
-	wprintf(&train_window, "\nJob Done!!");
 	
 }
 
@@ -251,13 +249,15 @@ void config1z()
 	while(1)
 	{
 	 	if(get_segment_status("12") == '1')
-	 	{ change_speed("4"); break; }
+	 	{  	set_switch("5","R");
+			set_switch("6","R");
+			set_switch("4","R");
+			set_switch("3","G"); 
+			break; 
+		}
 	}	
-	
-	set_switch("5","R");
-	set_switch("6","R");
-	set_switch("4","R");
-	set_switch("3","G");
+		
+	change_speed("4");
 	
 	while(1)
 	{
@@ -274,6 +274,8 @@ void config1z()
 	 	{ stop_train(); break; }
 	}	
 	
+	
+	
 }
 
 
@@ -289,13 +291,16 @@ void config2z()
 	while(1)
 	{
 	 	if(get_segment_status("11") == '1')
-	 	{ change_speed("4"); break; }
+	 	{  
+			set_switch("5","R");
+			set_switch("6","R");
+			set_switch("4","R");
+			set_switch("3","G");
+			break; 
+		}
 	}	
 	
-	set_switch("5","R");
-	set_switch("6","R");
-	set_switch("4","R");
-	set_switch("3","G");
+	change_speed("4");
 	
 	while(1)
 	{
@@ -304,7 +309,7 @@ void config2z()
 	}	
 	
 	change_direction();
-	change_speed("5");
+	change_speed("4");
 	
 	while(1)
 	{
@@ -342,9 +347,16 @@ void config3z()
 	
 	while(1)
 	{
+	 	if(get_segment_status("9") == '1')
+	 	{ 	set_switch("5","G");
+			break; 
+		}
+	}
+	
+	while(1)
+	{
 	 	if(get_segment_status("12") == '1')
-	 	{ stop_train(); 
-		  set_switch("5","G");	
+	 	{ stop_train(); 	
 		  set_switch("7","R");	
 		  break;
 		}
@@ -497,29 +509,89 @@ void config4z()
 		
 }
 
-// find configuration and execute 
 
-void find_config()
-{	
+// initialize the tracks for default configuration.
+void initialize_tracks()
+{
+	wprintf(&train_status_head, "COMMANDS STATUS \n");
+	wprintf(&train_window, "\nClosing outer loop...");
 	
+	// if zamboni travels clockwise 
+	set_switch("5","G");
+	set_switch("9","R");
+	set_switch("1","G");
 	
+	// if zamboni travels anti-clockwise
+	set_switch("8","G");
+	set_switch("4","G");
 	
-	int conf = 0;
-	int direction = 0; 
+	wprintf(&train_window, "\nClosed outer loop.");
 	
-	// probe to see if the zamboni present and running
-	int i = 0;
-	
-	for(i=0; i<=3; i++)
-	{		
-			if(get_segment_status("6") == '1')
-			{direction = 1; break; }
-			
-			if(get_segment_status("3") == '1')
-			{direction = 2; break; }
-	}	
-		
+}
+
+
+
+// function to probe the presence of Zamboni and its direction.
+int find_config()
+{
+	// initialize the tracks once the config started
 	initialize_tracks();
+	
+	wprintf(&train_window, "\nLooking For Zamboni.");
+	
+	int flag = 0;
+	int counter=0;
+	char* present;
+	char* direction;
+	
+	// loop until the the counter detects the track segment 6.
+	for(counter = 0; counter < 35; counter++)
+	{
+		wprintf(&train_window, ".");
+	 	if(get_segment_status("6") == '1')
+		{ 
+			flag = 1; 
+			wprintf(&train_window, "\nZamboni Found");
+			break; 	
+		}
+	}
+	
+	if(flag){
+		for(counter = 0; counter < 5; counter++)
+		{
+			wprintf(&train_window, "\nFinding Direction...");
+				
+			if(get_segment_status("7") == '1')
+			{ flag = 2; break; }
+			
+			if(get_segment_status("4") == '1')
+			{ flag = 3; break; }
+		}
+	}
+	
+	
+	
+
+	if(flag == 2){direction = "CLOCKWISE";}
+	if(flag == 3){direction = "ANTI-CLOCKWISE";}
+	
+	
+	if(flag)
+	{
+		wprintf(&train_window, "\nDirection Found: '%s'\n",  direction);
+	}
+	// by the end of this loop we will get to know that is Zamboni present or not
+	// and If Zamboni is present, what is the direction of Zamboni.	
+	return flag;
+}
+
+
+// find configuration and execute 
+void init_train_configuration()
+{	
+	int conf = 0;
+	int direction = find_config();
+	
 	
 	// detect vehicle positions 
 	if(get_segment_status("5") == '1')
@@ -563,44 +635,23 @@ void find_config()
 				config4z();
 				break;
 		   case 12: 
-				if(direction == 1) 
+				if(direction == 2) 
 					config1z();
-				else 
+				else if(direction == 3)
 					config2z();
 				break;
 		   default: 
 				break;
-		}	
-		
+		}		
 	}
 	
-	
-	
-	
-	
+	wprintf(&train_window, "\nTask Done!");
 } 
-
-// function to set tracks such that zamboni, if present, will not go off the boundries.
-void initialize_tracks()
-{
-	// if zamboni travels clockwise 
-	set_switch("5","G");
-	set_switch("9","R");
-	set_switch("1","G");
-	
-	// if zamboni travels anti-clockwise
-	set_switch("8","G");
-	set_switch("4","G");
-	
-	
-}
-
-
 
 // main train process
 void train_process(PROCESS self, PARAM param)
 {	
-	find_config();
+	init_train_configuration();
 	
 	remove_ready_queue(active_proc);
 	resign();

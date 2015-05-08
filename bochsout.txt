@@ -30,59 +30,59 @@
 00000000000i[     ]   SB16 support: yes
 00000000000i[     ]   USB support: yes
 00000000000i[     ]   VGA extension support: vbe 
-00000000000i[MEM0 ] allocated memory at 0xb5a50008. after alignment, vector=0xb5a51000
+00000000000i[MEM0 ] allocated memory at 0xb5ae8008. after alignment, vector=0xb5ae9000
 00000000000i[MEM0 ] 8.00MB
 00000000000i[MEM0 ] mem block size = 0x00100000, blocks=8
 00000000000i[MEM0 ] rom at 0xfffe0000/131072 ('/usr/share/bochs/BIOS-bochs-latest')
 00000000000i[MEM0 ] rom at 0xc0000/41472 ('/usr/share/bochs/VGABIOS-lgpl-latest')
-00000000000i[     ] lt_dlhandle is 0x9b601b0
+00000000000i[     ] lt_dlhandle is 0xa05c1b0
 00000000000i[PLGIN] loaded plugin libbx_cmos.so
-00000000000i[     ] lt_dlhandle is 0x9b607d0
+00000000000i[     ] lt_dlhandle is 0xa05c7d0
 00000000000i[PLGIN] loaded plugin libbx_dma.so
-00000000000i[     ] lt_dlhandle is 0x9b60e10
+00000000000i[     ] lt_dlhandle is 0xa05ce10
 00000000000i[PLGIN] loaded plugin libbx_pic.so
-00000000000i[     ] lt_dlhandle is 0x9b61310
+00000000000i[     ] lt_dlhandle is 0xa05d310
 00000000000i[PLGIN] loaded plugin libbx_pit.so
-00000000000i[     ] lt_dlhandle is 0x9b61958
+00000000000i[     ] lt_dlhandle is 0xa05d958
 00000000000i[PLGIN] loaded plugin libbx_vga.so
-00000000000i[     ] lt_dlhandle is 0x9b61d60
+00000000000i[     ] lt_dlhandle is 0xa05dd60
 00000000000i[PLGIN] loaded plugin libbx_hdimage.so
-00000000000i[     ] lt_dlhandle is 0x9b622f0
+00000000000i[     ] lt_dlhandle is 0xa05e2f0
 00000000000i[PLGIN] loaded plugin libbx_floppy.so
-00000000000i[     ] lt_dlhandle is 0x9b62ac0
+00000000000i[     ] lt_dlhandle is 0xa05eac0
 00000000000i[PLGIN] loaded plugin libbx_soundmod.so
-00000000000i[     ] lt_dlhandle is 0x9b63058
+00000000000i[     ] lt_dlhandle is 0xa05f058
 00000000000i[PLGIN] loaded plugin libbx_pci.so
-00000000000i[     ] lt_dlhandle is 0x9b63770
+00000000000i[     ] lt_dlhandle is 0xa05f770
 00000000000i[PLGIN] loaded plugin libbx_pci2isa.so
-00000000000i[     ] lt_dlhandle is 0x9b63dd0
+00000000000i[     ] lt_dlhandle is 0xa05fdd0
 00000000000i[PLGIN] loaded plugin libbx_usb_common.so
-00000000000i[     ] lt_dlhandle is 0x9b64328
+00000000000i[     ] lt_dlhandle is 0xa060328
 00000000000i[PLGIN] loaded plugin libbx_unmapped.so
-00000000000i[     ] lt_dlhandle is 0x9b647c0
+00000000000i[     ] lt_dlhandle is 0xa0607c0
 00000000000i[PLGIN] loaded plugin libbx_biosdev.so
-00000000000i[     ] lt_dlhandle is 0x9b64d90
+00000000000i[     ] lt_dlhandle is 0xa060d90
 00000000000i[PLGIN] loaded plugin libbx_speaker.so
-00000000000i[     ] lt_dlhandle is 0x9b65278
+00000000000i[     ] lt_dlhandle is 0xa061278
 00000000000i[PLGIN] loaded plugin libbx_extfpuirq.so
-00000000000i[     ] lt_dlhandle is 0x9b657b0
+00000000000i[     ] lt_dlhandle is 0xa0617b0
 00000000000i[PLGIN] loaded plugin libbx_gameport.so
-00000000000i[     ] lt_dlhandle is 0x9b65ca8
+00000000000i[     ] lt_dlhandle is 0xa061ca8
 00000000000i[PLGIN] loaded plugin libbx_pci_ide.so
-00000000000i[     ] lt_dlhandle is 0x9b662e8
+00000000000i[     ] lt_dlhandle is 0xa0622e8
 00000000000i[PLGIN] loaded plugin libbx_acpi.so
-00000000000i[     ] lt_dlhandle is 0x9b66928
+00000000000i[     ] lt_dlhandle is 0xa062928
 00000000000i[PLGIN] loaded plugin libbx_ioapic.so
-00000000000i[     ] lt_dlhandle is 0x9b66ee8
+00000000000i[     ] lt_dlhandle is 0xa062ee8
 00000000000i[PLGIN] loaded plugin libbx_keyboard.so
-00000000000i[     ] lt_dlhandle is 0x9b67500
+00000000000i[     ] lt_dlhandle is 0xa063500
 00000000000i[PLGIN] loaded plugin libbx_harddrv.so
-00000000000i[     ] lt_dlhandle is 0x9b79168
+00000000000i[     ] lt_dlhandle is 0xa075168
 00000000000i[PLGIN] loaded plugin libbx_serial.so
-00000000000i[     ] lt_dlhandle is 0x9b79ca8
+00000000000i[     ] lt_dlhandle is 0xa075ca8
 00000000000i[PLGIN] loaded plugin libbx_parallel.so
 00000000000i[CMOS ] Using local time for initial clock
-00000000000i[CMOS ] Setting initial clock to: Wed May  6 17:47:53 2015 (time0=1430959673)
+00000000000i[CMOS ] Setting initial clock to: Thu May  7 19:01:05 2015 (time0=1431050465)
 00000000000i[DMA  ] channel 4 used by cascade
 00000000000i[DMA  ] channel 2 used by Floppy Drive
 00000000000i[FDD  ] fd0: 'image/disk_image' ro=0, h=2,t=80,spt=18
@@ -158,219 +158,310 @@
 00000000000i[PLGIN] reset of 'serial' plugin device by virtual method
 00000000000i[PLGIN] reset of 'parallel' plugin device by virtual method
 00000003305i[BIOS ] $Revision: 1.257 $ $Date: 2011/01/26 09:52:02 $
-00000325049i[KBD  ] reset-disable command received
-00000457894i[VBIOS] VGABios $Id: vgabios.c,v 1.75 2011/10/15 14:07:21 vruppert Exp $
-00000460901i[VBIOS] VBE Bios $Id: vbe.c,v 1.64 2011/07/19 18:25:05 vruppert Exp $
-00000779612i[BIOS ] Starting rombios32
-00000780050i[BIOS ] Shutdown flag 0
-00000780622i[BIOS ] ram_size=0x00800000
-00000781021i[BIOS ] ram_end=8MB
-00000880935i[BIOS ] Found 1 cpu(s)
-00000896783i[BIOS ] bios_table_addr: 0x000fb928 end=0x000fcc00
-00000896877i[PCI  ] 440FX PMC write to PAM register 59 (TLB Flush)
-00001224574i[PCI  ] 440FX PMC write to PAM register 59 (TLB Flush)
-00001552502i[P2I  ] PCI IRQ routing: PIRQA# set to 0x0b
-00001552521i[P2I  ] PCI IRQ routing: PIRQB# set to 0x09
-00001552540i[P2I  ] PCI IRQ routing: PIRQC# set to 0x0b
-00001552559i[P2I  ] PCI IRQ routing: PIRQD# set to 0x09
-00001552569i[P2I  ] write: ELCR2 = 0x0a
-00001553340i[BIOS ] PIIX3/PIIX4 init: elcr=00 0a
-00001561012i[BIOS ] PCI: bus=0 devfn=0x00: vendor_id=0x8086 device_id=0x1237 class=0x0600
-00001563287i[BIOS ] PCI: bus=0 devfn=0x08: vendor_id=0x8086 device_id=0x7000 class=0x0601
-00001565401i[BIOS ] PCI: bus=0 devfn=0x09: vendor_id=0x8086 device_id=0x7010 class=0x0101
-00001565625i[PIDE ] new BM-DMA address: 0xc000
-00001566240i[BIOS ] region 4: 0x0000c000
-00001568267i[BIOS ] PCI: bus=0 devfn=0x0b: vendor_id=0x8086 device_id=0x7113 class=0x0680
-00001568496i[ACPI ] new irq line = 11
-00001568508i[ACPI ] new irq line = 9
-00001568533i[ACPI ] new PM base address: 0xb000
-00001568547i[ACPI ] new SM base address: 0xb100
-00001568575i[PCI  ] setting SMRAM control register to 0x4a
-00001732668i[CPU0 ] Enter to System Management Mode
-00001732678i[CPU0 ] RSM: Resuming from System Management Mode
-00001896699i[PCI  ] setting SMRAM control register to 0x0a
-00001905449i[BIOS ] MP table addr=0x000fba00 MPC table addr=0x000fb930 size=0xd0
-00001907263i[BIOS ] SMBIOS table addr=0x000fba10
-00001910396i[BIOS ] Firmware waking vector 0x7f00cc
-00001915307i[BIOS ] ACPI tables: RSDP addr=0x000fbb30 ACPI DATA addr=0x007f0000 size=0x1f18
-00001915343i[PCI  ] 440FX PMC write to PAM register 59 (TLB Flush)
-00001916067i[BIOS ] bios_table_cur_addr: 0x000fbb54
+00000320056i[KBD  ] reset-disable command received
+00000452901i[VBIOS] VGABios $Id: vgabios.c,v 1.75 2011/10/15 14:07:21 vruppert Exp $
+00000455908i[VBIOS] VBE Bios $Id: vbe.c,v 1.64 2011/07/19 18:25:05 vruppert Exp $
+00000774619i[BIOS ] Starting rombios32
+00000775057i[BIOS ] Shutdown flag 0
+00000775629i[BIOS ] ram_size=0x00800000
+00000776028i[BIOS ] ram_end=8MB
+00000875987i[BIOS ] Found 1 cpu(s)
+00000891835i[BIOS ] bios_table_addr: 0x000fb928 end=0x000fcc00
+00000891929i[PCI  ] 440FX PMC write to PAM register 59 (TLB Flush)
+00001219626i[PCI  ] 440FX PMC write to PAM register 59 (TLB Flush)
+00001547554i[P2I  ] PCI IRQ routing: PIRQA# set to 0x0b
+00001547573i[P2I  ] PCI IRQ routing: PIRQB# set to 0x09
+00001547592i[P2I  ] PCI IRQ routing: PIRQC# set to 0x0b
+00001547611i[P2I  ] PCI IRQ routing: PIRQD# set to 0x09
+00001547621i[P2I  ] write: ELCR2 = 0x0a
+00001548392i[BIOS ] PIIX3/PIIX4 init: elcr=00 0a
+00001556064i[BIOS ] PCI: bus=0 devfn=0x00: vendor_id=0x8086 device_id=0x1237 class=0x0600
+00001558339i[BIOS ] PCI: bus=0 devfn=0x08: vendor_id=0x8086 device_id=0x7000 class=0x0601
+00001560453i[BIOS ] PCI: bus=0 devfn=0x09: vendor_id=0x8086 device_id=0x7010 class=0x0101
+00001560677i[PIDE ] new BM-DMA address: 0xc000
+00001561292i[BIOS ] region 4: 0x0000c000
+00001563319i[BIOS ] PCI: bus=0 devfn=0x0b: vendor_id=0x8086 device_id=0x7113 class=0x0680
+00001563548i[ACPI ] new irq line = 11
+00001563560i[ACPI ] new irq line = 9
+00001563585i[ACPI ] new PM base address: 0xb000
+00001563599i[ACPI ] new SM base address: 0xb100
+00001563627i[PCI  ] setting SMRAM control register to 0x4a
+00001727720i[CPU0 ] Enter to System Management Mode
+00001727730i[CPU0 ] RSM: Resuming from System Management Mode
+00001891751i[PCI  ] setting SMRAM control register to 0x0a
+00001900501i[BIOS ] MP table addr=0x000fba00 MPC table addr=0x000fb930 size=0xd0
+00001902315i[BIOS ] SMBIOS table addr=0x000fba10
+00001905448i[BIOS ] Firmware waking vector 0x7f00cc
+00001910359i[BIOS ] ACPI tables: RSDP addr=0x000fbb30 ACPI DATA addr=0x007f0000 size=0x1f18
+00001910395i[PCI  ] 440FX PMC write to PAM register 59 (TLB Flush)
+00001911119i[BIOS ] bios_table_cur_addr: 0x000fbb54
 00032315749i[BIOS ] Booting from 0000:7c00
-01371867815i[SER  ]  -- COM 1 : read byte [42]
-01371901145i[SER  ]  -- COM 1 : read byte [48]
-01371934475i[SER  ]  -- COM 1 : read byte [13]
-01472967805i[SER  ]  -- COM 1 : read byte [42]
-01473001135i[SER  ]  -- COM 1 : read byte [48]
-01473034465i[SER  ]  -- COM 1 : read byte [13]
-01576067795i[SER  ]  -- COM 1 : read byte [42]
-01576101125i[SER  ]  -- COM 1 : read byte [49]
-01576134455i[SER  ]  -- COM 1 : read byte [13]
-01850167785i[SER  ]  -- COM 1 : read byte [42]
-01850201115i[SER  ]  -- COM 1 : read byte [48]
-01850234445i[SER  ]  -- COM 1 : read byte [13]
-01952267775i[SER  ]  -- COM 1 : read byte [42]
-01952301105i[SER  ]  -- COM 1 : read byte [49]
-01952334435i[SER  ]  -- COM 1 : read byte [13]
-02227367765i[SER  ]  -- COM 1 : read byte [42]
-02227401095i[SER  ]  -- COM 1 : read byte [48]
-02227434425i[SER  ]  -- COM 1 : read byte [13]
-02329467755i[SER  ]  -- COM 1 : read byte [42]
-02329501085i[SER  ]  -- COM 1 : read byte [48]
-02329534415i[SER  ]  -- COM 1 : read byte [13]
-02431567745i[SER  ]  -- COM 1 : read byte [42]
-02431601075i[SER  ]  -- COM 1 : read byte [48]
-02431634405i[SER  ]  -- COM 1 : read byte [13]
-02532667735i[SER  ]  -- COM 1 : read byte [42]
-02532701065i[SER  ]  -- COM 1 : read byte [48]
-02532734395i[SER  ]  -- COM 1 : read byte [13]
-02635767725i[SER  ]  -- COM 1 : read byte [42]
-02635801055i[SER  ]  -- COM 1 : read byte [48]
-02635834385i[SER  ]  -- COM 1 : read byte [13]
-02738867715i[SER  ]  -- COM 1 : read byte [42]
-02738901045i[SER  ]  -- COM 1 : read byte [48]
-02738934375i[SER  ]  -- COM 1 : read byte [13]
-02840967705i[SER  ]  -- COM 1 : read byte [42]
-02841001035i[SER  ]  -- COM 1 : read byte [48]
-02841034365i[SER  ]  -- COM 1 : read byte [13]
-02946067695i[SER  ]  -- COM 1 : read byte [42]
-02946101025i[SER  ]  -- COM 1 : read byte [48]
-02946134355i[SER  ]  -- COM 1 : read byte [13]
-03048167685i[SER  ]  -- COM 1 : read byte [42]
-03048201015i[SER  ]  -- COM 1 : read byte [48]
-03048234345i[SER  ]  -- COM 1 : read byte [13]
-03149267675i[SER  ]  -- COM 1 : read byte [42]
-03149301005i[SER  ]  -- COM 1 : read byte [49]
-03149334335i[SER  ]  -- COM 1 : read byte [13]
-03425367665i[SER  ]  -- COM 1 : read byte [42]
-03425400995i[SER  ]  -- COM 1 : read byte [48]
-03425434325i[SER  ]  -- COM 1 : read byte [13]
-03529467655i[SER  ]  -- COM 1 : read byte [42]
-03529500985i[SER  ]  -- COM 1 : read byte [48]
-03529534315i[SER  ]  -- COM 1 : read byte [13]
-03632567645i[SER  ]  -- COM 1 : read byte [42]
-03632600975i[SER  ]  -- COM 1 : read byte [48]
-03632634305i[SER  ]  -- COM 1 : read byte [13]
-03733667635i[SER  ]  -- COM 1 : read byte [42]
-03733700965i[SER  ]  -- COM 1 : read byte [48]
-03733734295i[SER  ]  -- COM 1 : read byte [13]
-03834767625i[SER  ]  -- COM 1 : read byte [42]
-03834800955i[SER  ]  -- COM 1 : read byte [48]
-03834834285i[SER  ]  -- COM 1 : read byte [13]
-03936867615i[SER  ]  -- COM 1 : read byte [42]
-03936900945i[SER  ]  -- COM 1 : read byte [48]
-03936934275i[SER  ]  -- COM 1 : read byte [13]
-04038967605i[SER  ]  -- COM 1 : read byte [42]
-04039000935i[SER  ]  -- COM 1 : read byte [48]
-04039034265i[SER  ]  -- COM 1 : read byte [13]
-04140067595i[SER  ]  -- COM 1 : read byte [42]
-04140100925i[SER  ]  -- COM 1 : read byte [48]
-04140134255i[SER  ]  -- COM 1 : read byte [13]
-04243167585i[SER  ]  -- COM 1 : read byte [42]
-04243200915i[SER  ]  -- COM 1 : read byte [48]
-04243234245i[SER  ]  -- COM 1 : read byte [13]
-04344267575i[SER  ]  -- COM 1 : read byte [42]
-04344300905i[SER  ]  -- COM 1 : read byte [48]
-04344334235i[SER  ]  -- COM 1 : read byte [13]
-04447367565i[SER  ]  -- COM 1 : read byte [42]
-04447400895i[SER  ]  -- COM 1 : read byte [48]
-04447434225i[SER  ]  -- COM 1 : read byte [13]
-04549467555i[SER  ]  -- COM 1 : read byte [42]
-04549500885i[SER  ]  -- COM 1 : read byte [48]
-04549534215i[SER  ]  -- COM 1 : read byte [13]
-04651567545i[SER  ]  -- COM 1 : read byte [42]
-04651600875i[SER  ]  -- COM 1 : read byte [48]
-04651634205i[SER  ]  -- COM 1 : read byte [13]
-04753667535i[SER  ]  -- COM 1 : read byte [42]
-04753700865i[SER  ]  -- COM 1 : read byte [48]
-04753734195i[SER  ]  -- COM 1 : read byte [13]
-04854767525i[SER  ]  -- COM 1 : read byte [42]
-04854800855i[SER  ]  -- COM 1 : read byte [48]
-04854834185i[SER  ]  -- COM 1 : read byte [13]
-04956867515i[SER  ]  -- COM 1 : read byte [42]
-04956900845i[SER  ]  -- COM 1 : read byte [48]
-04956934175i[SER  ]  -- COM 1 : read byte [13]
-05058967505i[SER  ]  -- COM 1 : read byte [42]
-05059000835i[SER  ]  -- COM 1 : read byte [48]
-05059034165i[SER  ]  -- COM 1 : read byte [13]
-05163067495i[SER  ]  -- COM 1 : read byte [42]
-05163100825i[SER  ]  -- COM 1 : read byte [48]
-05163134155i[SER  ]  -- COM 1 : read byte [13]
-05267167485i[SER  ]  -- COM 1 : read byte [42]
-05267200815i[SER  ]  -- COM 1 : read byte [48]
-05267234145i[SER  ]  -- COM 1 : read byte [13]
-05369267475i[SER  ]  -- COM 1 : read byte [42]
-05369300805i[SER  ]  -- COM 1 : read byte [48]
-05369334135i[SER  ]  -- COM 1 : read byte [13]
-05471367465i[SER  ]  -- COM 1 : read byte [42]
-05471400795i[SER  ]  -- COM 1 : read byte [48]
-05471434125i[SER  ]  -- COM 1 : read byte [13]
-05572467455i[SER  ]  -- COM 1 : read byte [42]
-05572500785i[SER  ]  -- COM 1 : read byte [49]
-05572534115i[SER  ]  -- COM 1 : read byte [13]
-05793567445i[SER  ]  -- COM 1 : read byte [42]
-05793600775i[SER  ]  -- COM 1 : read byte [48]
-05793634105i[SER  ]  -- COM 1 : read byte [13]
-05895667435i[SER  ]  -- COM 1 : read byte [42]
-05895700765i[SER  ]  -- COM 1 : read byte [48]
-05895734095i[SER  ]  -- COM 1 : read byte [13]
-05995767425i[SER  ]  -- COM 1 : read byte [42]
-05995800755i[SER  ]  -- COM 1 : read byte [48]
-05995834085i[SER  ]  -- COM 1 : read byte [13]
-06096867415i[SER  ]  -- COM 1 : read byte [42]
-06096900745i[SER  ]  -- COM 1 : read byte [48]
-06096934075i[SER  ]  -- COM 1 : read byte [13]
-06198967405i[SER  ]  -- COM 1 : read byte [42]
-06199000735i[SER  ]  -- COM 1 : read byte [48]
-06199034065i[SER  ]  -- COM 1 : read byte [13]
-06302067395i[SER  ]  -- COM 1 : read byte [42]
-06302100725i[SER  ]  -- COM 1 : read byte [48]
-06302134055i[SER  ]  -- COM 1 : read byte [13]
-06405167385i[SER  ]  -- COM 1 : read byte [42]
-06405200715i[SER  ]  -- COM 1 : read byte [48]
-06405234045i[SER  ]  -- COM 1 : read byte [13]
-06508267375i[SER  ]  -- COM 1 : read byte [42]
-06508300705i[SER  ]  -- COM 1 : read byte [48]
-06508334035i[SER  ]  -- COM 1 : read byte [13]
-06610367365i[SER  ]  -- COM 1 : read byte [42]
-06610400695i[SER  ]  -- COM 1 : read byte [48]
-06610434025i[SER  ]  -- COM 1 : read byte [13]
-06712467355i[SER  ]  -- COM 1 : read byte [42]
-06712500685i[SER  ]  -- COM 1 : read byte [48]
-06712534015i[SER  ]  -- COM 1 : read byte [13]
-06814567345i[SER  ]  -- COM 1 : read byte [42]
-06814600675i[SER  ]  -- COM 1 : read byte [48]
-06814634005i[SER  ]  -- COM 1 : read byte [13]
-06915667335i[SER  ]  -- COM 1 : read byte [42]
-06915700665i[SER  ]  -- COM 1 : read byte [49]
-06915733995i[SER  ]  -- COM 1 : read byte [13]
-13052500000p[SDL  ] >>PANIC<< POWER button turned off.
-13052500000i[CPU0 ] CPU is in protected mode (active)
-13052500000i[CPU0 ] CS.d_b = 32 bit
-13052500000i[CPU0 ] SS.d_b = 32 bit
-13052500000i[CPU0 ] EFER   = 0x00000000
-13052500000i[CPU0 ] | RAX=0000000000006724  RBX=0000000000000004
-13052500000i[CPU0 ] | RCX=0000000000000005  RDX=0000000000000000
-13052500000i[CPU0 ] | RSP=000000000009fff4  RBP=0000000000000000
-13052500000i[CPU0 ] | RSI=000000000000ffff  RDI=000000000000b7e4
-13052500000i[CPU0 ] |  R8=0000000000000000   R9=0000000000000000
-13052500000i[CPU0 ] | R10=0000000000000000  R11=0000000000000000
-13052500000i[CPU0 ] | R12=0000000000000000  R13=0000000000000000
-13052500000i[CPU0 ] | R14=0000000000000000  R15=0000000000000000
-13052500000i[CPU0 ] | IOPL=0 id vip vif ac vm rf nt of df IF tf sf zf af PF cf
-13052500000i[CPU0 ] | SEG selector     base    limit G D
-13052500000i[CPU0 ] | SEG sltr(index|ti|rpl)     base    limit G D
-13052500000i[CPU0 ] |  CS:0008( 0001| 0|  0) 00000000 ffffffff 1 1
-13052500000i[CPU0 ] |  DS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-13052500000i[CPU0 ] |  SS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-13052500000i[CPU0 ] |  ES:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-13052500000i[CPU0 ] |  FS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-13052500000i[CPU0 ] |  GS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-13052500000i[CPU0 ] |  MSR_FS_BASE:0000000000000000
-13052500000i[CPU0 ] |  MSR_GS_BASE:0000000000000000
-13052500000i[CPU0 ] | RIP=0000000000007713 (0000000000007713)
-13052500000i[CPU0 ] | CR0=0x60000011 CR2=0x0000000000000000
-13052500000i[CPU0 ] | CR3=0x00000000 CR4=0x00000000
-13052500000i[CPU0 ] 0x0000000000007713>> jmp .-2 (0x00007713) : EBFE
-13052500000i[CMOS ] Last time is 1430960978 (Wed May  6 18:09:38 2015)
-13052500000i[     ] restoring default signal behavior
-13052500000i[CTRL ] quit_sim called with exit code 1
+00059328343i[BIOS ] int13_harddisk: function 00, ELDL out of range 96
+00811319011i[SER  ]  -- COM 1 : read byte [42]
+00811352341i[SER  ]  -- COM 1 : read byte [48]
+00811385671i[SER  ]  -- COM 1 : read byte [13]
+00896419001i[SER  ]  -- COM 1 : read byte [42]
+00896452331i[SER  ]  -- COM 1 : read byte [48]
+00896485661i[SER  ]  -- COM 1 : read byte [13]
+00981518991i[SER  ]  -- COM 1 : read byte [42]
+00981552321i[SER  ]  -- COM 1 : read byte [48]
+00981585651i[SER  ]  -- COM 1 : read byte [13]
+01066618981i[SER  ]  -- COM 1 : read byte [42]
+01066652311i[SER  ]  -- COM 1 : read byte [48]
+01066685641i[SER  ]  -- COM 1 : read byte [13]
+01152718971i[SER  ]  -- COM 1 : read byte [42]
+01152752301i[SER  ]  -- COM 1 : read byte [48]
+01152785631i[SER  ]  -- COM 1 : read byte [13]
+01238818961i[SER  ]  -- COM 1 : read byte [42]
+01238852291i[SER  ]  -- COM 1 : read byte [48]
+01238885621i[SER  ]  -- COM 1 : read byte [13]
+01323918951i[SER  ]  -- COM 1 : read byte [42]
+01323952281i[SER  ]  -- COM 1 : read byte [48]
+01323985611i[SER  ]  -- COM 1 : read byte [13]
+01408018941i[SER  ]  -- COM 1 : read byte [42]
+01408052271i[SER  ]  -- COM 1 : read byte [48]
+01408085601i[SER  ]  -- COM 1 : read byte [13]
+01493118931i[SER  ]  -- COM 1 : read byte [42]
+01493152261i[SER  ]  -- COM 1 : read byte [48]
+01493185591i[SER  ]  -- COM 1 : read byte [13]
+01578218921i[SER  ]  -- COM 1 : read byte [42]
+01578252251i[SER  ]  -- COM 1 : read byte [48]
+01578285581i[SER  ]  -- COM 1 : read byte [13]
+01664318911i[SER  ]  -- COM 1 : read byte [42]
+01664352241i[SER  ]  -- COM 1 : read byte [48]
+01664385571i[SER  ]  -- COM 1 : read byte [13]
+01749418901i[SER  ]  -- COM 1 : read byte [42]
+01749452231i[SER  ]  -- COM 1 : read byte [48]
+01749485561i[SER  ]  -- COM 1 : read byte [13]
+01834518891i[SER  ]  -- COM 1 : read byte [42]
+01834552221i[SER  ]  -- COM 1 : read byte [48]
+01834585551i[SER  ]  -- COM 1 : read byte [13]
+01920618881i[SER  ]  -- COM 1 : read byte [42]
+01920652211i[SER  ]  -- COM 1 : read byte [48]
+01920685541i[SER  ]  -- COM 1 : read byte [13]
+02005718871i[SER  ]  -- COM 1 : read byte [42]
+02005752201i[SER  ]  -- COM 1 : read byte [48]
+02005785531i[SER  ]  -- COM 1 : read byte [13]
+02090818861i[SER  ]  -- COM 1 : read byte [42]
+02090852191i[SER  ]  -- COM 1 : read byte [49]
+02090885521i[SER  ]  -- COM 1 : read byte [13]
+02175918851i[SER  ]  -- COM 1 : read byte [42]
+02175952181i[SER  ]  -- COM 1 : read byte [48]
+02175985511i[SER  ]  -- COM 1 : read byte [13]
+02262018841i[SER  ]  -- COM 1 : read byte [42]
+02262052171i[SER  ]  -- COM 1 : read byte [48]
+02262085501i[SER  ]  -- COM 1 : read byte [13]
+02347118831i[SER  ]  -- COM 1 : read byte [42]
+02347152161i[SER  ]  -- COM 1 : read byte [48]
+02347185491i[SER  ]  -- COM 1 : read byte [13]
+02432218821i[SER  ]  -- COM 1 : read byte [42]
+02432252151i[SER  ]  -- COM 1 : read byte [49]
+02432285481i[SER  ]  -- COM 1 : read byte [13]
+02518318811i[SER  ]  -- COM 1 : read byte [42]
+02518352141i[SER  ]  -- COM 1 : read byte [48]
+02518385471i[SER  ]  -- COM 1 : read byte [13]
+02603418801i[SER  ]  -- COM 1 : read byte [42]
+02603452131i[SER  ]  -- COM 1 : read byte [49]
+02603485461i[SER  ]  -- COM 1 : read byte [13]
+02717518791i[SER  ]  -- COM 1 : read byte [42]
+02717552121i[SER  ]  -- COM 1 : read byte [48]
+02717585451i[SER  ]  -- COM 1 : read byte [13]
+02803618781i[SER  ]  -- COM 1 : read byte [42]
+02803652111i[SER  ]  -- COM 1 : read byte [48]
+02803685441i[SER  ]  -- COM 1 : read byte [13]
+02888718771i[SER  ]  -- COM 1 : read byte [42]
+02888752101i[SER  ]  -- COM 1 : read byte [48]
+02888785431i[SER  ]  -- COM 1 : read byte [13]
+02973818761i[SER  ]  -- COM 1 : read byte [42]
+02973852091i[SER  ]  -- COM 1 : read byte [48]
+02973885421i[SER  ]  -- COM 1 : read byte [13]
+03059918751i[SER  ]  -- COM 1 : read byte [42]
+03059952081i[SER  ]  -- COM 1 : read byte [48]
+03059985411i[SER  ]  -- COM 1 : read byte [13]
+03146018741i[SER  ]  -- COM 1 : read byte [42]
+03146052071i[SER  ]  -- COM 1 : read byte [48]
+03146085401i[SER  ]  -- COM 1 : read byte [13]
+03230118731i[SER  ]  -- COM 1 : read byte [42]
+03230152061i[SER  ]  -- COM 1 : read byte [48]
+03230185391i[SER  ]  -- COM 1 : read byte [13]
+03316218721i[SER  ]  -- COM 1 : read byte [42]
+03316252051i[SER  ]  -- COM 1 : read byte [48]
+03316285381i[SER  ]  -- COM 1 : read byte [13]
+03401318711i[SER  ]  -- COM 1 : read byte [42]
+03401352041i[SER  ]  -- COM 1 : read byte [49]
+03401385371i[SER  ]  -- COM 1 : read byte [13]
+03630418701i[SER  ]  -- COM 1 : read byte [42]
+03630452031i[SER  ]  -- COM 1 : read byte [48]
+03630485361i[SER  ]  -- COM 1 : read byte [13]
+03715518691i[SER  ]  -- COM 1 : read byte [42]
+03715552021i[SER  ]  -- COM 1 : read byte [48]
+03715585351i[SER  ]  -- COM 1 : read byte [13]
+03800618681i[SER  ]  -- COM 1 : read byte [42]
+03800652011i[SER  ]  -- COM 1 : read byte [48]
+03800685341i[SER  ]  -- COM 1 : read byte [13]
+03885718671i[SER  ]  -- COM 1 : read byte [42]
+03885752001i[SER  ]  -- COM 1 : read byte [48]
+03885785331i[SER  ]  -- COM 1 : read byte [13]
+03969818661i[SER  ]  -- COM 1 : read byte [42]
+03969851991i[SER  ]  -- COM 1 : read byte [48]
+03969885321i[SER  ]  -- COM 1 : read byte [13]
+04055918651i[SER  ]  -- COM 1 : read byte [42]
+04055951981i[SER  ]  -- COM 1 : read byte [48]
+04055985311i[SER  ]  -- COM 1 : read byte [13]
+04141018641i[SER  ]  -- COM 1 : read byte [42]
+04141051971i[SER  ]  -- COM 1 : read byte [48]
+04141085301i[SER  ]  -- COM 1 : read byte [13]
+04227118631i[SER  ]  -- COM 1 : read byte [42]
+04227151961i[SER  ]  -- COM 1 : read byte [48]
+04227185291i[SER  ]  -- COM 1 : read byte [13]
+04312218621i[SER  ]  -- COM 1 : read byte [42]
+04312251951i[SER  ]  -- COM 1 : read byte [48]
+04312285281i[SER  ]  -- COM 1 : read byte [13]
+04397318611i[SER  ]  -- COM 1 : read byte [42]
+04397351941i[SER  ]  -- COM 1 : read byte [48]
+04397385271i[SER  ]  -- COM 1 : read byte [13]
+04483418601i[SER  ]  -- COM 1 : read byte [42]
+04483451931i[SER  ]  -- COM 1 : read byte [48]
+04483485261i[SER  ]  -- COM 1 : read byte [13]
+04568518591i[SER  ]  -- COM 1 : read byte [42]
+04568551921i[SER  ]  -- COM 1 : read byte [48]
+04568585251i[SER  ]  -- COM 1 : read byte [13]
+04653618581i[SER  ]  -- COM 1 : read byte [42]
+04653651911i[SER  ]  -- COM 1 : read byte [48]
+04653685241i[SER  ]  -- COM 1 : read byte [13]
+04738718571i[SER  ]  -- COM 1 : read byte [42]
+04738751901i[SER  ]  -- COM 1 : read byte [48]
+04738785231i[SER  ]  -- COM 1 : read byte [13]
+04824818561i[SER  ]  -- COM 1 : read byte [42]
+04824851891i[SER  ]  -- COM 1 : read byte [48]
+04824885221i[SER  ]  -- COM 1 : read byte [13]
+04909918551i[SER  ]  -- COM 1 : read byte [42]
+04909951881i[SER  ]  -- COM 1 : read byte [48]
+04909985211i[SER  ]  -- COM 1 : read byte [13]
+04995018541i[SER  ]  -- COM 1 : read byte [42]
+04995051871i[SER  ]  -- COM 1 : read byte [48]
+04995085201i[SER  ]  -- COM 1 : read byte [13]
+05079118531i[SER  ]  -- COM 1 : read byte [42]
+05079151861i[SER  ]  -- COM 1 : read byte [48]
+05079185191i[SER  ]  -- COM 1 : read byte [13]
+05165218521i[SER  ]  -- COM 1 : read byte [42]
+05165251851i[SER  ]  -- COM 1 : read byte [48]
+05165285181i[SER  ]  -- COM 1 : read byte [13]
+05250318511i[SER  ]  -- COM 1 : read byte [42]
+05250351841i[SER  ]  -- COM 1 : read byte [48]
+05250385171i[SER  ]  -- COM 1 : read byte [13]
+05335418501i[SER  ]  -- COM 1 : read byte [42]
+05335451831i[SER  ]  -- COM 1 : read byte [48]
+05335485161i[SER  ]  -- COM 1 : read byte [13]
+05420518491i[SER  ]  -- COM 1 : read byte [42]
+05420551821i[SER  ]  -- COM 1 : read byte [48]
+05420585151i[SER  ]  -- COM 1 : read byte [13]
+05505618481i[SER  ]  -- COM 1 : read byte [42]
+05505651811i[SER  ]  -- COM 1 : read byte [48]
+05505685141i[SER  ]  -- COM 1 : read byte [13]
+05591718471i[SER  ]  -- COM 1 : read byte [42]
+05591751801i[SER  ]  -- COM 1 : read byte [49]
+05591785131i[SER  ]  -- COM 1 : read byte [13]
+05776818461i[SER  ]  -- COM 1 : read byte [42]
+05776851791i[SER  ]  -- COM 1 : read byte [48]
+05776885121i[SER  ]  -- COM 1 : read byte [13]
+05862918451i[SER  ]  -- COM 1 : read byte [42]
+05862951781i[SER  ]  -- COM 1 : read byte [48]
+05862985111i[SER  ]  -- COM 1 : read byte [13]
+05948018441i[SER  ]  -- COM 1 : read byte [42]
+05948051771i[SER  ]  -- COM 1 : read byte [48]
+05948085101i[SER  ]  -- COM 1 : read byte [13]
+06033118431i[SER  ]  -- COM 1 : read byte [42]
+06033151761i[SER  ]  -- COM 1 : read byte [48]
+06033185091i[SER  ]  -- COM 1 : read byte [13]
+06118218421i[SER  ]  -- COM 1 : read byte [42]
+06118251751i[SER  ]  -- COM 1 : read byte [48]
+06118285081i[SER  ]  -- COM 1 : read byte [13]
+06203318411i[SER  ]  -- COM 1 : read byte [42]
+06203351741i[SER  ]  -- COM 1 : read byte [48]
+06203385071i[SER  ]  -- COM 1 : read byte [13]
+06288418401i[SER  ]  -- COM 1 : read byte [42]
+06288451731i[SER  ]  -- COM 1 : read byte [48]
+06288485061i[SER  ]  -- COM 1 : read byte [13]
+06372518391i[SER  ]  -- COM 1 : read byte [42]
+06372551721i[SER  ]  -- COM 1 : read byte [48]
+06372585051i[SER  ]  -- COM 1 : read byte [13]
+06458618381i[SER  ]  -- COM 1 : read byte [42]
+06458651711i[SER  ]  -- COM 1 : read byte [48]
+06458685041i[SER  ]  -- COM 1 : read byte [13]
+06543718371i[SER  ]  -- COM 1 : read byte [42]
+06543751701i[SER  ]  -- COM 1 : read byte [48]
+06543785031i[SER  ]  -- COM 1 : read byte [13]
+06629818361i[SER  ]  -- COM 1 : read byte [42]
+06629851691i[SER  ]  -- COM 1 : read byte [48]
+06629885021i[SER  ]  -- COM 1 : read byte [13]
+06714918351i[SER  ]  -- COM 1 : read byte [42]
+06714951681i[SER  ]  -- COM 1 : read byte [48]
+06714985011i[SER  ]  -- COM 1 : read byte [13]
+06801018341i[SER  ]  -- COM 1 : read byte [42]
+06801051671i[SER  ]  -- COM 1 : read byte [48]
+06801085001i[SER  ]  -- COM 1 : read byte [13]
+06886118331i[SER  ]  -- COM 1 : read byte [42]
+06886151661i[SER  ]  -- COM 1 : read byte [48]
+06886184991i[SER  ]  -- COM 1 : read byte [13]
+06971218321i[SER  ]  -- COM 1 : read byte [42]
+06971251651i[SER  ]  -- COM 1 : read byte [48]
+06971284981i[SER  ]  -- COM 1 : read byte [13]
+07057318311i[SER  ]  -- COM 1 : read byte [42]
+07057351641i[SER  ]  -- COM 1 : read byte [48]
+07057384971i[SER  ]  -- COM 1 : read byte [13]
+07142418301i[SER  ]  -- COM 1 : read byte [42]
+07142451631i[SER  ]  -- COM 1 : read byte [48]
+07142484961i[SER  ]  -- COM 1 : read byte [13]
+07227518291i[SER  ]  -- COM 1 : read byte [42]
+07227551621i[SER  ]  -- COM 1 : read byte [48]
+07227584951i[SER  ]  -- COM 1 : read byte [13]
+07312618281i[SER  ]  -- COM 1 : read byte [42]
+07312651611i[SER  ]  -- COM 1 : read byte [48]
+07312684941i[SER  ]  -- COM 1 : read byte [13]
+07398718271i[SER  ]  -- COM 1 : read byte [42]
+07398751601i[SER  ]  -- COM 1 : read byte [48]
+07398784931i[SER  ]  -- COM 1 : read byte [13]
+07483818261i[SER  ]  -- COM 1 : read byte [42]
+07483851591i[SER  ]  -- COM 1 : read byte [48]
+07483884921i[SER  ]  -- COM 1 : read byte [13]
+07568918251i[SER  ]  -- COM 1 : read byte [42]
+07568951581i[SER  ]  -- COM 1 : read byte [48]
+07568984911i[SER  ]  -- COM 1 : read byte [13]
+07654018241i[SER  ]  -- COM 1 : read byte [42]
+07654051571i[SER  ]  -- COM 1 : read byte [48]
+07654084901i[SER  ]  -- COM 1 : read byte [13]
+07739118231i[SER  ]  -- COM 1 : read byte [42]
+07739151561i[SER  ]  -- COM 1 : read byte [49]
+07739184891i[SER  ]  -- COM 1 : read byte [13]
+08416430000p[SDL  ] >>PANIC<< POWER button turned off.
+08416430000i[CPU0 ] CPU is in protected mode (active)
+08416430000i[CPU0 ] CS.d_b = 32 bit
+08416430000i[CPU0 ] SS.d_b = 32 bit
+08416430000i[CPU0 ] EFER   = 0x00000000
+08416430000i[CPU0 ] | RAX=0000000000006724  RBX=0000000000000004
+08416430000i[CPU0 ] | RCX=0000000000000005  RDX=0000000000000000
+08416430000i[CPU0 ] | RSP=000000000009fff4  RBP=0000000000000000
+08416430000i[CPU0 ] | RSI=00000000000e185d  RDI=000000000000af84
+08416430000i[CPU0 ] |  R8=0000000000000000   R9=0000000000000000
+08416430000i[CPU0 ] | R10=0000000000000000  R11=0000000000000000
+08416430000i[CPU0 ] | R12=0000000000000000  R13=0000000000000000
+08416430000i[CPU0 ] | R14=0000000000000000  R15=0000000000000000
+08416430000i[CPU0 ] | IOPL=0 id vip vif ac vm rf nt of df IF tf sf zf af PF cf
+08416430000i[CPU0 ] | SEG selector     base    limit G D
+08416430000i[CPU0 ] | SEG sltr(index|ti|rpl)     base    limit G D
+08416430000i[CPU0 ] |  CS:0008( 0001| 0|  0) 00000000 ffffffff 1 1
+08416430000i[CPU0 ] |  DS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+08416430000i[CPU0 ] |  SS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+08416430000i[CPU0 ] |  ES:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+08416430000i[CPU0 ] |  FS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+08416430000i[CPU0 ] |  GS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+08416430000i[CPU0 ] |  MSR_FS_BASE:0000000000000000
+08416430000i[CPU0 ] |  MSR_GS_BASE:0000000000000000
+08416430000i[CPU0 ] | RIP=0000000000007817 (0000000000007817)
+08416430000i[CPU0 ] | CR0=0x60000011 CR2=0x0000000000000000
+08416430000i[CPU0 ] | CR3=0x00000000 CR4=0x00000000
+08416430000i[CPU0 ] 0x0000000000007817>> jmp .-2 (0x00007817) : EBFE
+08416430000i[CMOS ] Last time is 1431051306 (Thu May  7 19:15:06 2015)
+08416430000i[     ] restoring default signal behavior
+08416430000i[CTRL ] quit_sim called with exit code 1

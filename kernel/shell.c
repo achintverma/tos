@@ -5,9 +5,15 @@
 #define KB_ENTER '\015'
 #define KB_BACK '\010'
 // #define const char* COMMANDS[] = {"clr","go","stop"};
-WINDOW train_window = {0, 0, 80, 6, 0, 0, ' '};
-WINDOW shell_window = {0, 11, 80, 15, 0, 0, 0xA6, TRUE, "Shell"};
-static WINDOW shell_border = {0, 10, 80, 2, 0, 0, 0xA6, TRUE, "Shell Border"};
+WINDOW train_window =        {0, 0, 60, 11, 0, 0, ' '};
+
+WINDOW train_status_head =   {60, 0, 20, 2, 0, 0, ' '};
+WINDOW train_status =        {60, 2, 20, 9, 0, 0, ' '};
+
+static WINDOW shell_border = {0, 11, 80, 2, 0, 0, 0, TRUE, "Shell Border"};
+
+WINDOW shell_window =        {0, 12, 80, 10, 0, 0, 0xA6, TRUE, "Shell"};
+
 
 // Array of commands in tos shell.
 command commands_array[MAX_COMMANDS + 1];
@@ -54,7 +60,7 @@ void start_kb(PROCESS self, PARAM param)
 	 clear_window(kernel_window);
 	 
 	 // render the border 
-	 wprintf(&shell_border, "________________________________________________________________________________");
+	 wprintf(&shell_border, "============================== TRAIN OS TERMINAL ===============================");
 	 
 	 tos_prompt();
 	 
