@@ -269,7 +269,7 @@ void init_keyb();
 
 /*=====>>> shell.c <<<===================================================*/
 
-#define MAX_COMMANDS 15
+#define MAX_COMMANDS 10
 
 void init_shell();
 
@@ -277,24 +277,33 @@ typedef struct _command_definition
 {
 	void (*func);
     char *name;
+    char *display_name;
     char *description;
 } command;
 
 void tos_prompt();
 void print_string(char* str);
 void clear_whites(char*, int);
-command* lookup_command_array(const command *commands, const char *user_input_command);
-void dispatch_command(void (*func) , char *name, char *description, command *command);
+command* lookup_command(const command *commands, const char *user_input_command);
+void init_command(void (*func) , char *name, char *disp_name, char *description, command *command);
 
 extern WINDOW shell_window;
 extern WINDOW train_window;
 extern WINDOW train_status;
 extern WINDOW train_status_head;
 
+#define KB_SPACE '\040'
+#define KB_TAB '\011'
+#define KB_ENTER '\015'
+#define KB_BACK '\010'
+
 /*=====>>> train.c <<<===================================================*/
 
 void init_train();
 void set_train_speed(char* speed);
+
+#define CARRIGE_RETURN "\015"
+#define TRAIN "20"
 
 /*=====>>> pacman.c <<<==================================================*/
 

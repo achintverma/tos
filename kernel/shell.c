@@ -1,14 +1,9 @@
 #include <kernel.h>
 
-#define KB_SPACE '\040'
-#define KB_TAB '\011'
-#define KB_ENTER '\015'
-#define KB_BACK '\010'
-// #define const char* COMMANDS[] = {"clr","go","stop"};
-WINDOW train_window =        {0, 0, 60, 11, 0, 0, ' '};
+WINDOW train_window =        {0, 0, 60, 11, 0, 0, ' '}; // window for train milestone messages
 
-WINDOW train_status_head =   {60, 0, 20, 2, 0, 0, ' '};
-WINDOW train_status =        {60, 2, 20, 9, 0, 0, ' '};
+WINDOW train_status_head =   {60, 0, 20, 2, 0, 0, ' '}; // window for heading of status
+WINDOW train_status =        {60, 2, 20, 9, 0, 0, ' '}; // shows live train commands
 
 static WINDOW shell_border = {0, 11, 80, 2, 0, 0, 0, TRUE, "Shell Border"};
 
@@ -16,30 +11,20 @@ WINDOW shell_window =        {0, 12, 80, 10, 0, 0, 0xA6, TRUE, "Shell"};
 
 
 // Array of commands in tos shell.
-command commands_array[MAX_COMMANDS + 1];
+command commands_array[MAX_COMMANDS];
 
-
+// Global variables so command and arguments can be accessed by any method
 char arguments[20] = "";
 char cmd_string[10] = ""; 
 
-/*
- * dispatch_command() method dispatches the function call to the appropriate command
- * entered by the user on Shell prompt.
- * This function is used for the definition of the dipatch_command()
- * */
-void dispatch_command(void (*func) ,char *name, char *description, command *cmd) 
-{
-	cmd->name = name;
-	cmd->func = func;
-	cmd->description = description;
-}
+
 
 /*
  * lookup_command_array() function searches for the command entered by the user in the
  * command array and returns the match if found.
  * 
  * */
-command* lookup_command_array(const command *commands, const char *user_input_command){
+command* lookup_command(const command *commands, const char *user_input_command){
 	
 	// loop until the match is found.
 	for(; commands->func != NULL; commands++)
@@ -52,29 +37,39 @@ command* lookup_command_array(const command *commands, const char *user_input_co
 	return (command *)commands;
 }
 
+/*
+ *   functon to clear entire screen and render the shell border window and TOS prompt
+ */
+
+void render_shell()
+{
+     // clear the window every time you open the shell.
+	 clear_window(kernel_window);
+	 
+	 // render the shell top border 
+	 wprintf(&shell_border, "============================== TRAIN OS TERMINAL ===============================");
+	 
+	 tos_prompt();	
+}
+
+/*
+ *   functon to capture each key pressed on shell and call function when ENTER key is pressed 
+ */
 
 void start_kb(PROCESS self, PARAM param)
 {
-	 	
-	 // clear the window every time you open the shell.
-	 clear_window(kernel_window);
-	 
-	 // render the border 
-	 wprintf(&shell_border, "============================== TRAIN OS TERMINAL ===============================");
-	 
-	 tos_prompt();
-	 
-	 show_cursor(kernel_window); 	
-		
+	
 	 char ch;
 	 Keyb_Message msg;
 	 
-	 char* input_string;
-	 
-	 int char_num = 0;
+	 char* input_string;                // holds entire string types in shell
+	 int char_num = 0;                  // used to keep track of characters entered in shell
 	 
 	 command* command_var;
-	 void (*caller_function)();
+	 void (*caller)();
+	 
+	 // render the shell
+	 render_shell();
 	 
 	 while (1) { 
 		msg.key_buffer = &ch;
@@ -84,12 +79,14 @@ void start_kb(PROCESS self, PARAM param)
 		// CHECK IF ENTER KEY WAS PRESSED
 		if(ch == KB_ENTER){
 					
+			// remove all whitespaces (including extra spaces between command and argument) and 
+			// prepare command and argument string
 			clear_whites(input_string, char_num);
 		
-			// reset all counters everytime ENTER is pressed 
+			// reset counter everytime ENTER is pressed 
 			char_num 		= 0;
 			
-			command_var = lookup_command_array(commands_array, cmd_string);
+			command_var = lookup_command(commands_array, cmd_string);
 				
 				
 				if (command_var->func == NULL)
@@ -99,8 +96,8 @@ void start_kb(PROCESS self, PARAM param)
 				else
 				{	
 					// run the command as per the user input.
-					caller_function = command_var->func;
-					caller_function();
+					caller = command_var->func;
+					caller();
 				}
 
 			
@@ -153,8 +150,6 @@ void clear_whites(char *input_ch, int char_num){
 		{
 			 if(is_first_block == FALSE)
 			 {
-				//*(arguments+j) = ' ';
-				
 				arguments[j] = ' ';
 				j++;
 			 }
@@ -177,11 +172,11 @@ void clear_whites(char *input_ch, int char_num){
 	}
 	else
 	{
+		// valid character found, lets put it in command or argument
+		
 		if(is_first_block == TRUE)
-			//*(cmd_string+j) = ch;
 			cmd_string[j] = ch;
 		else
-			//*(arguments+j) = ch;
 			arguments[j] = ch;
 		
 		j++;
@@ -203,21 +198,10 @@ void clear_whites(char *input_ch, int char_num){
 }
 
 
-
-
-
-void print_string(char* str)
-{
-	while(*str != '\0')
-	wprintf(&shell_window, "%c",*str++);
-}
-
-
-
 /* TOS SHELL COMMANDS START HERE */
 
 
-// function to show command prompt
+// function to show command prompt after command is done
 
 void tos_prompt(){
 
@@ -229,7 +213,7 @@ void tos_prompt(){
 void tos_clr(){
 
 	clear_window(&shell_window);
-	//print_string(arguments);
+	
 }
 
 // function to print list of processes 
@@ -257,10 +241,10 @@ void tos_ps(){
 		
 		
 		wprintf(&shell_window, "%d  ", i);					// pcb entry
-		wprintf(&shell_window, "  %2d     ", p->priority); // priority 
+		wprintf(&shell_window, "  %2d     ", p->priority);  // priority 
 		wprintf(&shell_window, state[p->state]);      		// state
 		
-		if (p == active_proc)          		// active process?     
+		if (p == active_proc)          		                // active process?     
 			wprintf(&shell_window, " *      ");
 		else
 			wprintf(&shell_window, "        ");
@@ -300,7 +284,7 @@ void tos_ports(){
 // function to echo a message 
 void tos_echo(){
 	
-	wprintf(&shell_window, "\n %s", arguments);
+	wprintf(&shell_window, "%s", arguments);
 	
 }
 
@@ -312,38 +296,61 @@ void tos_train(){
 	
 }
 
+// function to print all functions 
+void tos_help()
+{
+	int i = 0;
+	
+	wprintf(&shell_window, "\n Available Commands ");  
+	
+	for(i=0; i < MAX_COMMANDS; i++)
+	{
+	   if(commands_array[i].func == NULL)
+	     continue;
+	    
+	   wprintf(&shell_window, "\n - %s     %s", commands_array[i].display_name, commands_array[i].description);  
+			
+	}
+	
+}
 
-
+/*
+ *  function to initialize commands in the command struct
+ */
+ 
+void init_command(void (*func) ,char *name, char* disp_name, char *description, command *cmd) 
+{
+	cmd->name 			= name;
+	cmd->display_name 	= disp_name;
+	cmd->func 			= func;
+	cmd->description 	= description;
+}
 
 
 /* 
- * init_shell() method will initialize the Shell process functions which associated with each commands
- * entered on the prompt.
- * 
- * */
+ * function to initialize all functions in the array
+ */
 void init_shell()
 {
 	// counter to store the functions in the commands array.
 	int counter = 0;
 	
-	// initialize all the functions for commands
-	dispatch_command(tos_ps, "ps", "Displays a list of all running processes", &commands_array[counter++]);
-	dispatch_command(tos_clr, "clr", "Use to clear the shell window", &commands_array[counter++]);
-	dispatch_command(tos_ports, "ports", "Displays a list of all used ports", &commands_array[counter++]);
-	dispatch_command(tos_echo, "echo", "Echoes the function arguments", &commands_array[counter++]);
-	dispatch_command(tos_train, "train", "Initialize and start Train process", &commands_array[counter++]);
+	// initialize commands 
+	init_command(tos_ps,    "ps",    "ps   ", "Shows list of running processes", 	 &commands_array[counter++]);
+	init_command(tos_clr,   "clr",   "clr  ", "Clear Window", 			             &commands_array[counter++]);
+	init_command(tos_ports, "ports", "ports", "Show list of running ports",          &commands_array[counter++]);
+	init_command(tos_echo,  "echo",  "echo ", "Print the string back on screen",     &commands_array[counter++]);
+	init_command(tos_train, "train", "train", "Start train process",                 &commands_array[counter++]);
+	init_command(tos_help,  "help",  "help ", "Show list of available commands",     &commands_array[counter++]);
 	
 	
 	// assign the NULL to each of the remaining commands in the array.
-	while(counter < MAX_COMMANDS){
-		dispatch_command(NULL, "NCF", "No command found", &commands_array[counter++]);
+	while(counter < MAX_COMMANDS)
+	{
+		init_command(NULL, "", "", "Command not found", &commands_array[counter++]);
 	}
-	commands_array[MAX_COMMANDS].name 			= "NULL";
-	commands_array[MAX_COMMANDS].func 			=  NULL;
-	commands_array[MAX_COMMANDS].description 	= "NULL";
 	
-	
-	// once all functions are initialized, create the shell process.
+	// create shell process
 	create_process(start_kb, 5, 0, "Terminal Process");
 	resign();
 	
